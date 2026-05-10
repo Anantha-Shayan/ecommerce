@@ -35,7 +35,7 @@ def register(body: UserRegisterIn, db: Session = Depends(get_db)):
         db.add(SellerProfile(user_id=user.id, shop_name=body.seller_shop_name))
 
     db.commit()
-    full = db.execute(select(User).options(joinedload(User.roles)).where(User.id == user.id)).scalar_one()
+    full = db.execute(select(User).options(joinedload(User.roles)).where(User.id == user.id)).unique().scalar_one()
     mongo_logs.log_user_activity(full.id, "REGISTER", {"email": full.email})
     token = create_access_token(str(full.id), extra={"roles": [r.name for r in full.roles]})
     return TokenOut(access_token=token)

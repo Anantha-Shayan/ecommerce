@@ -12,8 +12,8 @@ docker compose up --build
 | Service    | URL                         |
 |-----------|-----------------------------|
 | Frontend  | http://localhost:5173       |
-| API       | http://localhost:8000       |
-| API docs  | http://localhost:8000/docs  |
+| API       | http://localhost:8001       |
+| API docs  | http://localhost:8001/docs  |
 | Postgres  | localhost:5432              |
 | MongoDB   | localhost:27017             |
 
@@ -91,7 +91,7 @@ ecommerce-dbms/
 - **Admin** (`admin` role): `/admin/analytics/*`, `/admin/users`, `/admin/products/*`, `/admin/audit/sql`, …
 - **Seller** (`seller` role): `/seller/orders`, `/seller/analytics/sales`, `PATCH /seller/products/{id}`
 
-Open **http://localhost:8000/docs** for the interactive OpenAPI UI.
+Open **http://localhost:8001/docs** for the interactive OpenAPI UI.
 
 ---
 
