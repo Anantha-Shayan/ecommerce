@@ -1,110 +1,413 @@
-# MarketGrid — Full-Stack E‑Commerce (DBMS Lab)
+<div align="center">
 
-Production-style prototype: **FastAPI + PostgreSQL + MongoDB + Alembic**, **React + Vite + Tailwind**, **JWT RBAC**, **SQL triggers/views**, **transactional checkout**, and **Mongo-backed activity logs**.
+<img src="./frontend/marketgrid-logo.svg" alt="MarketGrid Logo" width="150"/>
 
-## Quick start (Docker)
+# 🛒 MarketGrid
+
+<p align="center">
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=flat&logo=postgresql&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat&logo=mongodb&logoColor=white)
+![RabbitMQ](https://img.shields.io/badge/RabbitMQ-FF6600?style=flat&logo=rabbitmq&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=flat&logo=python&logoColor=ffdd54)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat&logo=sqlalchemy&logoColor=white)
+![Alembic](https://img.shields.io/badge/Alembic-222222?style=flat)
+![Swagger](https://img.shields.io/badge/Swagger-%23Clojure?style=flat&logo=swagger&logoColor=white)
+
+</p>
+
+### 📌 Demonstrates Core DBMS Concepts
+
+**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC · Polyglot Persistence**
+
+
+### 🌐 Live App
+**https://ecommerce.ananthadev.online**
+
+</div>
+
+---
+
+# ✨ Overview
+
+MarketGrid is a production-style e-commerce application built to demonstrate practical DBMS concepts in a realistic system workflow.
+
+The project focuses heavily on:
+
+- Relational schema design
+- Normalization
+- ACID transactions
+- Concurrency control
+- SQL triggers & views
+- RBAC authorization
+- Polyglot persistence
+- Event-driven architecture
+
+Unlike traditional academic mini-projects, this application demonstrates how DBMS concepts appear inside real software systems.
+
+---
+
+# 🏗️ Architecture
+
+<p align="center">
+  <img src="./docs/images/architecture-diagram.png" width="100%" alt="Architecture Diagram"/>
+</p>
+
+## Architecture Summary
+
+- **React + Vite** provides the frontend UI
+- **FastAPI** exposes REST APIs
+- **PostgreSQL** handles transactional relational data
+- **MongoDB** stores flexible logs & telemetry
+- **RabbitMQ** handles asynchronous processing
+- **Docker Compose** orchestrates all services
+
+### Why this architecture?
+
+| Component | Why Used |
+|---|---|
+| PostgreSQL | ACID transactions, joins, constraints, triggers |
+| MongoDB | Flexible event logging & telemetry |
+| RabbitMQ | Async email & event processing |
+| FastAPI | Fast REST APIs with dependency injection |
+| React | Realistic frontend workflow |
+
+---
+
+# 🧩 ER Diagram
+
+<p align="center">
+  <img src="./docs/images/er-diagram.png" width="100%" alt="ER Diagram"/>
+</p>
+
+## Main Entities
+
+- Users
+- Roles
+- Permissions
+- Products
+- Categories
+- Inventory
+- Orders
+- Payments
+- Reviews
+- Cart Items
+- Wishlist Items
+- Notifications
+
+### Relationships Demonstrated
+
+- One-to-many
+- Many-to-many
+- Transactional relationships
+- RBAC bridge tables
+
+---
+
+# ⚡ Quick Start
+
+## Run Entire Application
 
 ```bash
-cd ecommerce-dbms
 docker compose up --build
 ```
 
-| Service    | URL                         |
-|-----------|-----------------------------|
-| Frontend  | http://localhost:5173       |
-| API       | http://localhost:8001       |
-| API docs  | http://localhost:8001/docs  |
-| Postgres  | localhost:5432              |
-| MongoDB   | localhost:27017             |
-| RabbitMQ  | localhost:5672              |
-| RabbitMQ UI | http://localhost:15672    |
+---
 
-**Seeded accounts** (from `scripts/seed.py`):
+# 🌐 Services
 
-- `admin@example.com` / `Admin123!`
-- `seller@example.com` / `Seller123!`
-- `buyer@example.com` / `Buyer123!`
-
-Coupon for checkout: **SAVE10** (10% off).
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend API | http://localhost:8001 |
+| Swagger Docs | http://localhost:8001/docs |
+| PostgreSQL | localhost:5432 |
+| MongoDB | localhost:27017 |
+| RabbitMQ | localhost:5672 |
+| RabbitMQ Dashboard | http://localhost:15672 |
 
 ---
 
-## Local development (without Docker frontend)
+# 🔑 Seeded Demo Accounts
 
-**Backend**
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@example.com | Admin123! |
+| Seller | seller@example.com | Seller123! |
+| Buyer | buyer@example.com | Buyer123! |
+
+### Coupon
+```txt
+SAVE10
+```
+
+---
+
+# 🧠 DBMS Concepts Demonstrated
+
+## PostgreSQL Features
+
+- Normalized relational schema
+- Primary & foreign keys
+- CHECK & UNIQUE constraints
+- Transactions & rollback
+- `SELECT ... FOR UPDATE`
+- SQL joins & aggregates
+- Views
+- SQL functions
+- Triggers
+- Audit logging
+
+---
+
+## ACID Transaction Demonstration
+
+Checkout flow performs:
+
+1. Cart validation
+2. Inventory locking
+3. Order creation
+4. Order item insertion
+5. Payment insertion
+6. Cart cleanup
+7. Commit / rollback
+
+If any step fails, the entire transaction rolls back.
+
+---
+
+## Concurrency Control
+
+The application uses:
+
+```sql
+SELECT ... FOR UPDATE
+```
+
+to prevent:
+
+- Overselling inventory
+- Race conditions
+- Concurrent stock corruption
+
+---
+
+## PostgreSQL Triggers
+
+Implemented trigger workflows:
+
+- Inventory auto decrement
+- Low stock notifications
+- Order confirmation after payment
+- SQL audit logging before delete
+
+---
+
+## MongoDB Usage
+
+MongoDB stores:
+
+- Product view logs
+- Recommendation logs
+- User activity logs
+- Notification logs
+- Support chat logs
+- Flexible audit events
+
+This demonstrates **polyglot persistence**.
+
+---
+
+# 🔐 RBAC (Role-Based Access Control)
+
+Roles implemented:
+
+- Admin
+- Seller
+- Customer
+
+Database tables:
+
+- users
+- roles
+- permissions
+- user_roles
+- role_permissions
+
+FastAPI dependencies enforce authorization at API level.
+
+---
+
+# 📦 Project Structure
 
 ```bash
-cd backend
-python -m venv .venv
-.\.venv\Scripts\activate   # Windows
-pip install -r requirements.txt
-# Requires PostgreSQL client libs; `psycopg2-binary` is in requirements.txt
-copy .env.example .env     # adjust DATABASE_URL / MONGO_URI as needed
-alembic upgrade head
-python -m scripts.seed
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Frontend**
-
-```bash
-cd frontend
-npm install
-set VITE_API_URL=http://localhost:8000/api   # Windows cmd
-npm run dev
-```
-
----
-
-## What this demonstrates
-
-- **PostgreSQL**: normalized schema, PK/FK/CHECK/UNIQUE, indexes, joins, aggregates, nested subqueries (admin dashboard revenue), **`SELECT … FOR UPDATE`** in checkout for oversell prevention inside a transaction.
-- **Triggers** (applied in Alembic): inventory decrement on `order_items` insert; low-stock seller notification on `inventory` update; order confirmation when `payments.status` becomes `Success`; **`BEFORE DELETE` audit** row on products.
-- **Payment simulation flow**: checkout creates `Pending` payments; clicking **Simulate Payment** updates the payment row to `Success`; a PostgreSQL trigger inserts a row into `email_queue`; RabbitMQ fans that email job out to the async worker.
-- **RabbitMQ**: durable `email_jobs` queue with a dedicated worker process that simulates outbound payment-confirmation emails.
-- **Views**: `v_top_selling_products`, `v_monthly_sales`, `v_active_customers`; SQL function `fn_order_item_subtotal`.
-- **MongoDB**: append-only / flexible collections for `product_view_logs`, `recommendation_logs`, `user_activity_logs`, `notification_logs`, `chat_support_messages`, `audit_logs` — see `docs/DATABASE.md` for rationale.
-- **RBAC**: roles `admin`, `seller`, `customer`; FastAPI dependencies guard `/api/admin/*` and `/api/seller/*`.
-
----
-
-## Project layout
-
-```
 ecommerce-dbms/
-  backend/           # FastAPI app, Alembic, SQLAlchemy models, triggers SQL
-  frontend/          # Vite React SPA
-  docs/              # ER, normalization, concurrency, Mongo justification
-  docker-compose.yml
+│
+├── backend/        # FastAPI backend
+├── frontend/       # React frontend
+├── docs/           # Documentation & diagrams
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
-## API surface (prefix `/api`)
+# 🔌 API Surface
 
-- `POST /auth/register`, `POST /auth/login`, `GET /auth/me`
-- `GET /categories/`, `GET /products/`, `GET /products/{id}`, `POST /products/seller`
-- `GET|POST /cart/`, `DELETE /cart/`
-- `GET|POST /addresses/`, `DELETE /addresses/{id}`
-- `POST /orders/checkout`, `GET /orders/mine`, `POST /orders/{order_id}/simulate-payment`
-- `GET|POST /wishlist/`, `DELETE /wishlist/{product_id}`
-- `GET|POST /reviews/product/{product_id}`
-- `GET /notifications/`, `POST /notifications/mark-all-read`
-- `POST /support/` (Mongo log)
-- `GET /recommendations/`
-- **Admin** (`admin` role): `/admin/analytics/*`, `/admin/users`, `/admin/products/*`, `/admin/audit/sql`, …
-- **Seller** (`seller` role): `/seller/orders`, `/seller/analytics/sales`, `PATCH /seller/products/{id}`
+## Authentication
 
-Open **http://localhost:8001/docs** for the interactive OpenAPI UI.
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+
+## Products
+
+- `GET /api/products`
+- `GET /api/products/{id}`
+- `POST /api/products/seller`
+
+## Cart & Checkout
+
+- `GET /api/cart`
+- `POST /api/cart`
+- `POST /api/orders/checkout`
+
+## Wishlist & Reviews
+
+- `GET /api/wishlist`
+- `POST /api/reviews/product/{id}`
+
+## Admin APIs
+
+- `/api/admin/analytics/*`
+- `/api/admin/audit/sql`
+- `/api/admin/products/*`
+
+## Seller APIs
+
+- `/api/seller/orders`
+- `/api/seller/analytics/sales`
 
 ---
 
-## Documentation
+# 📊 SQL Views
 
-- [docs/DATABASE.md](docs/DATABASE.md) — ER (Mermaid), normalization, triggers, transactions, concurrency, Mongo vs SQL, conceptual `GRANT` notes.
+The application includes analytical views:
+
+- `v_top_selling_products`
+- `v_monthly_sales`
+- `v_active_customers`
+
+These simplify complex reporting queries.
 
 ---
 
-## License
+# 🧮 SQL Function
 
-Educational / demonstration use.
+Custom reusable SQL function:
+
+```sql
+fn_order_item_subtotal(order_id, product_id)
+```
+
+Used for reusable subtotal calculations.
+
+---
+
+# 📨 RabbitMQ Event Flow
+
+RabbitMQ is used for:
+
+- Email job queues
+- Async notifications
+- Event processing
+
+The worker service consumes queued events asynchronously.
+
+---
+
+# 🐳 Dockerized Deployment
+
+All services are containerized using Docker Compose.
+
+Benefits:
+
+- Easy setup
+- Consistent environments
+- Simplified deployment
+- Service isolation
+
+---
+
+# 📚 Documentation
+
+Additional documentation available inside:
+
+```bash
+docs/
+```
+
+Includes:
+
+- Normalization notes
+- Trigger explanations
+- Transaction walkthroughs
+- MongoDB justification
+- ER modeling notes
+
+---
+
+# 🎯 Demo Highlights
+
+During project demonstration:
+
+- Login as buyer
+- Browse products
+- Add items to cart
+- Checkout transaction
+- Seller inventory management
+- Admin analytics dashboard
+- SQL audit log demonstration
+- MongoDB event logging
+
+---
+
+# 🏁 Conclusion
+
+MarketGrid demonstrates how core DBMS concepts integrate into real-world software systems instead of isolated academic examples.
+
+The project combines:
+
+- Relational database design
+- Transaction management
+- Concurrency control
+- Trigger automation
+- RBAC security
+- Polyglot persistence
+- Event-driven architecture
+
+making it ideal for:
+
+- DBMS demonstrations
+- Viva presentations
+- Resume projects
+- Portfolio showcases
+
+---
+
+# 📄 License
+
+Educational / Demonstration Use
+
+---
+
+# ⭐ Acknowledgements
+
+Inspired by production-grade e-commerce architectures and modern database system design principles.

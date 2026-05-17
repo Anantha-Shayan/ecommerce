@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560">
+  <style>
+    .box { fill:#111827; stroke:#4b5563; stroke-width:2; rx:16; }
+    .label { fill:#f8fafc; font-family:Inter,system-ui,sans-serif; font-size:16px; font-weight:600; }
+    .text { fill:#d1d5db; font-family:Inter,system-ui,sans-serif; font-size:12px; }
+    .line { stroke:#6b7280; stroke-width:2; marker-end:url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#6b7280" />
+    </marker>
+  </defs>
+  <rect class="box" x="44" y="40" width="260" height="120" />
+  <text class="label" x="74" y="72">React + Vite Frontend</text>
+  <text class="text" x="74" y="96">Tailwind UI, catalog, cart, checkout</text>
+  <text class="text" x="74" y="112">buyer / seller / admin dashboards</text>
+
+  <rect class="box" x="370" y="40" width="260" height="120" />
+  <text class="label" x="400" y="72">FastAPI Backend</text>
+  <text class="text" x="400" y="96">JWT auth, RBAC, REST APIs</text>
+  <text class="text" x="400" y="112">checkout, notifications, reports</text>
+
+  <rect class="box" x="695" y="40" width="260" height="120" />
+  <text class="label" x="725" y="72">Docker Compose</text>
+  <text class="text" x="725" y="96">Postgres, MongoDB, RabbitMQ</text>
+  <text class="text" x="725" y="112">backend, frontend, worker services</text>
+
+  <line x1="280" y1="90" x2="370" y2="90" />
+  <line x1="630" y1="90" x2="695" y2="90" />
+
+  <rect class="box" x="44" y="200" width="260" height="120" />
+  <text class="label" x="74" y="232">PostgreSQL</text>
+  <text class="text" x="74" y="256">users, products, orders, payments</text>
+  <text class="text" x="74" y="272">triggers, views, transaction logic</text>
+
+  <rect class="box" x="370" y="200" width="260" height="120" />
+  <text class="label" x="400" y="232">MongoDB</text>
+  <text class="text" x="400" y="256">activity logs, product views, support</text>
+  <text class="text" x="400" y="272">fluidschema telemetry collections</text>
+
+  <rect class="box" x="695" y="200" width="260" height="120" />
+  <text class="label" x="725" y="232">RabbitMQ</text>
+  <text class="text" x="725" y="256">email_jobs queue</text>
+  <text class="text" x="725" y="272">async notification processing</text>
+
+  <line class="line" x1="214" y1="220" x2="370" y2="220" />
+  <line class="line" x1="630" y1="220" x2="695" y2="220" />
+
+  <line class="line" x1="200" y1="160" x2="200" y2="200" />
+  <line class="line" x1="430" y1="160" x2="430" y2="200" />
+  <line class="line" x1="760" y1="160" x2="760" y2="200" />
+
+  <rect x="260" y="360" width="480" height="120" rx="16" fill="#0f172a" stroke="#4b5563" stroke-width="2" />
+  <text class="label" x="380" y="395">Email Worker</text>
+  <text class="text" x="380" y="420">RabbitMQ consumer sends payment confirmation emails</text>
+  <text class="text" x="380" y="436">async processing outside request path</text>
+
+  <line class="line" x1="520" y1="320" x2="520" y2="360" />
+</svg>
