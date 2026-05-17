@@ -29,7 +29,7 @@ def create_review(
         .where(
             Order.user_id == user.id,
             OrderItem.product_id == product_id,
-            Payment.status == "completed",
+            Payment.status == "Success",
         )
         .limit(1)
     ).first()

@@ -34,7 +34,7 @@ export default function Checkout() {
         coupon_code: coupon.trim() || null,
         simulate_failure: simulateFailure,
       });
-      toast.success(`Order #${res.data.order.id} · ${res.data.payment.status}`);
+      toast.success(`Order #${res.data.order.id} created · payment ${res.data.payment.status}`);
       navigate('/orders');
     } catch (err) {
       const d = err.response?.data?.detail;
@@ -46,7 +46,7 @@ export default function Checkout() {
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Checkout</h1>
-        <p className="text-sm text-zinc-500">Simulated PSP commit inside a single PostgreSQL transaction.</p>
+        <p className="text-sm text-zinc-500">Create the order first, then trigger a fake payment from order history.</p>
       </div>
       {cart && (
         <div className="rounded-3xl border border-zinc-200 bg-white p-4 text-sm">
@@ -89,7 +89,7 @@ export default function Checkout() {
           type="submit"
           className="w-full rounded-2xl bg-orange-500 py-2.5 text-sm font-semibold text-white hover:bg-orange-600"
         >
-          Pay &amp; place order
+          Place order
         </button>
       </form>
     </div>

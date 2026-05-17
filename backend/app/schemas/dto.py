@@ -129,6 +129,12 @@ class CheckoutResponse(BaseModel):
     payment: PaymentOut
 
 
+class OrderSummaryOut(OrderOut):
+    payment_id: int | None = None
+    payment_status: str | None = None
+    simulated_ref: str | None = None
+
+
 class ReviewCreateIn(BaseModel):
     rating: int = Field(ge=1, le=5)
     title: str = Field(min_length=2, max_length=160)

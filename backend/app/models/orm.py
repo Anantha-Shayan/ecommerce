@@ -12,6 +12,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     Numeric,
+    text,
     String,
     Text,
     UniqueConstraint,
@@ -33,10 +34,10 @@ class OrderStatus(str, enum.Enum):
 
 
 class PaymentStatus(str, enum.Enum):
-    pending = "pending"
-    processing = "processing"
-    completed = "completed"
-    failed = "failed"
+    pending = "Pending"
+    processing = "Processing"
+    success = "Success"
+    failed = "Failed"
 
 
 class ProductModerationStatus(str, enum.Enum):
@@ -268,6 +269,39 @@ class Payment(Base):
     simulated_ref: Mapped[str | None] = mapped_column(String(120))
 
 
+class EmailQueueStatus(str, enum.Enum):
+    pending = "pending"
+    published = "published"
+    sent = "sent"
+    failed = "failed"
+
+
+class EmailQueue(Base):
+    __tablename__ = "email_queue"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
+    order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), nullable=False, index=True)
+    payment_id: Mapped[int] = mapped_column(ForeignKey("payments.id"), nullable=False, unique=True, index=True)
+    recipient_email: Mapped[str] = mapped_column(String(320), nullable=False, index=True)
+    subject: Mapped[str] = mapped_column(String(255), nullable=False)
+    body: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(
+        String(40),
+        nullable=False,
+        default=EmailQueueStatus.pending.value,
+        server_default=text("'pending'"),
+    )
+    published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=datetime.utcnow,
+        server_default=text("CURRENT_TIMESTAMP"),
+    )
+
+
 class Review(Base):
     __tablename__ = "reviews"
 
@@ -293,7 +327,11 @@ class Notification(Base):
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     body: Mapped[str | None] = mapped_column(Text)
     is_read: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=datetime.utcnow,
+        server_default=text("CURRENT_TIMESTAMP"),
+    )
 
 
 class SqlAuditLog(Base):

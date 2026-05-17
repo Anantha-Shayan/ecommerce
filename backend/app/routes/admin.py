@@ -17,7 +17,7 @@ def admin_dashboard(db: Session = Depends(get_db)):
             Order.id.in_(
                 select(Order.id)
                 .join(Payment, Payment.order_id == Order.id)
-                .where(Payment.status == "completed")
+                .where(Payment.status == "Success")
             )
         )
     )

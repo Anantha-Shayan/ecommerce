@@ -16,6 +16,8 @@ docker compose up --build
 | API docs  | http://localhost:8001/docs  |
 | Postgres  | localhost:5432              |
 | MongoDB   | localhost:27017             |
+| RabbitMQ  | localhost:5672              |
+| RabbitMQ UI | http://localhost:15672    |
 
 **Seeded accounts** (from `scripts/seed.py`):
 
@@ -57,7 +59,9 @@ npm run dev
 ## What this demonstrates
 
 - **PostgreSQL**: normalized schema, PK/FK/CHECK/UNIQUE, indexes, joins, aggregates, nested subqueries (admin dashboard revenue), **`SELECT … FOR UPDATE`** in checkout for oversell prevention inside a transaction.
-- **Triggers** (applied in Alembic): inventory decrement on `order_items` insert; low-stock seller notification on `inventory` update; order confirmation when `payments.status` becomes `completed`; **`BEFORE DELETE` audit** row on products.
+- **Triggers** (applied in Alembic): inventory decrement on `order_items` insert; low-stock seller notification on `inventory` update; order confirmation when `payments.status` becomes `Success`; **`BEFORE DELETE` audit** row on products.
+- **Payment simulation flow**: checkout creates `Pending` payments; clicking **Simulate Payment** updates the payment row to `Success`; a PostgreSQL trigger inserts a row into `email_queue`; RabbitMQ fans that email job out to the async worker.
+- **RabbitMQ**: durable `email_jobs` queue with a dedicated worker process that simulates outbound payment-confirmation emails.
 - **Views**: `v_top_selling_products`, `v_monthly_sales`, `v_active_customers`; SQL function `fn_order_item_subtotal`.
 - **MongoDB**: append-only / flexible collections for `product_view_logs`, `recommendation_logs`, `user_activity_logs`, `notification_logs`, `chat_support_messages`, `audit_logs` — see `docs/DATABASE.md` for rationale.
 - **RBAC**: roles `admin`, `seller`, `customer`; FastAPI dependencies guard `/api/admin/*` and `/api/seller/*`.
@@ -82,7 +86,7 @@ ecommerce-dbms/
 - `GET /categories/`, `GET /products/`, `GET /products/{id}`, `POST /products/seller`
 - `GET|POST /cart/`, `DELETE /cart/`
 - `GET|POST /addresses/`, `DELETE /addresses/{id}`
-- `POST /orders/checkout`, `GET /orders/mine`
+- `POST /orders/checkout`, `GET /orders/mine`, `POST /orders/{order_id}/simulate-payment`
 - `GET|POST /wishlist/`, `DELETE /wishlist/{product_id}`
 - `GET|POST /reviews/product/{product_id}`
 - `GET /notifications/`, `POST /notifications/mark-all-read`

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from decimal import Decimal
 
 from sqlalchemy import delete, select
@@ -21,6 +22,8 @@ from app.models import (
 )
 from app.models.orm import OrderStatus
 
+logger = logging.getLogger(__name__)
+
 
 class CheckoutError(RuntimeError):
     pass
@@ -39,34 +42,42 @@ class OrderCheckoutService:
         simulate_failure: bool = False,
         coupon_code: str | None = None,
     ) -> tuple[Order, Payment]:
-        if not cart.items:
-            raise CheckoutError("Cart is empty")
+        order: Order | None = None
+        payment: Payment | None = None
 
-        address = (
-            self.db.execute(select(Address).where(Address.id == address_id, Address.user_id == user_id))
-            .scalar_one_or_none()
-        )
-        if not address:
-            raise CheckoutError("Invalid shipping address")
+        try:
+            cart_items = self.db.execute(
+                select(CartItem).where(CartItem.cart_id == cart.id)
+            ).scalars().all()
+            if not cart_items:
+                raise CheckoutError("Cart is empty")
 
-        coupon: Coupon | None = None
-        if coupon_code:
-            code = coupon_code.strip().upper()
-            coupon = self.db.execute(
-                select(Coupon).where(Coupon.code == code, Coupon.is_active.is_(True))
-            ).scalar_one_or_none()
-            if not coupon:
-                raise CheckoutError("Invalid coupon")
+            address = (
+                self.db.execute(select(Address).where(Address.id == address_id, Address.user_id == user_id))
+                .scalar_one_or_none()
+            )
+            if not address:
+                raise CheckoutError("Invalid shipping address")
 
-        sorted_items = sorted(cart.items, key=lambda x: x.product_id)
-        totals = Decimal("0")
-        lines: list[tuple[Product, int, Decimal]] = []
+            coupon: Coupon | None = None
+            if coupon_code:
+                code = coupon_code.strip().upper()
+                coupon = self.db.execute(
+                    select(Coupon).where(Coupon.code == code, Coupon.is_active.is_(True))
+                ).scalar_one_or_none()
+                if not coupon:
+                    raise CheckoutError("Invalid coupon")
 
-        with self.db.begin():
+            sorted_items = sorted(cart_items, key=lambda x: x.product_id)
+            totals = Decimal("0")
+            lines: list[tuple[Product, int, Decimal]] = []
+
             for ci in sorted_items:
                 inv_row = self.db.scalars(
                     select(Inventory).where(Inventory.product_id == ci.product_id).with_for_update()
-                ).one()
+                ).one_or_none()
+                if inv_row is None:
+                    raise CheckoutError(f"Inventory record missing for product {ci.product_id}")
 
                 prod = self.db.scalars(
                     select(Product).where(
@@ -117,15 +128,19 @@ class OrderCheckoutService:
             payment = Payment(
                 order_id=order.id,
                 provider="simulated",
-                status=PaymentStatus.completed.value,
+                status=PaymentStatus.pending.value,
                 simulated_ref="pending",
             )
             self.db.add(payment)
             self.db.flush()
 
             payment.simulated_ref = f"SIM-{order.id}-{payment.id}"
-
             self.db.execute(delete(CartItem).where(CartItem.cart_id == cart.id))
+            self.db.commit()
+        except Exception as exc:
+            self.db.rollback()
+            logger.exception("Checkout failed for user %s: %s", user_id, exc)
+            raise
 
         self.db.refresh(order)
         self.db.refresh(payment)
