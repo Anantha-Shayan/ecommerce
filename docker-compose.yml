@@ -47,6 +47,8 @@ services:
   node-exporter:
     image: prom/node-exporter:latest
     container_name: ec_node-exporter
+    pid: host
+    network_mode: host
     restart: unless-stopped
     command:
       - '--path.procfs=/host/proc'
@@ -142,3 +144,4 @@ volumes:
   pg_data:
   mongo_data:
   prom_data:
+  rabbit_data:

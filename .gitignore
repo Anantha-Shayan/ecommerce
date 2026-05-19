@@ -36,3 +36,7 @@ frontend/dist/
 
 # Docker/local state
 *.pid
+
+#prometheus and grafana
+grafana-data/
+prometheus-data/
