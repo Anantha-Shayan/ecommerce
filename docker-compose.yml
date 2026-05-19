@@ -3,15 +3,15 @@ services:
     image: postgres:16-alpine
     container_name: ec_postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-ecuser}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ecsecret}
-      POSTGRES_DB: ${POSTGRES_DB:-ecommerce}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-ecuser} -d ${POSTGRES_DB:-ecommerce}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -35,11 +35,51 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 5s
       timeout: 5s
       retries: 10
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: ec_node-exporter
+    restart: unless-stopped
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/host'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - 9100:9100
+  prometheus:
+    image: prom/prometheus
+    container_name: ec_prometheus
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prom_data:/var/prometheus
+  grafana:
+    image: grafana/grafana
+    container_name: ec_grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    volumes:
+      - ./grafana.yml:/etc/grafana/provisioning/datasources/prometheus.yml
+
 
   backend:
     build:
@@ -47,13 +87,13 @@ services:
       dockerfile: Dockerfile
     container_name: ec_backend
     environment:
-      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-ecuser}:${POSTGRES_PASSWORD:-ecsecret}@postgres:5432/${POSTGRES_DB:-ecommerce}
+      DATABASE_URL: ${DATABASE_URL}
       MONGO_URI: mongodb://mongo:27017
       MONGO_DB: ecommerce_logs
-      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/%2F
+      RABBITMQ_URL: ${RABBITMQ_URL}
       RABBITMQ_QUEUE_NAME: email_jobs
       EMAIL_FROM_ADDRESS: no-reply@marketgrid.local
-      JWT_SECRET: ${JWT_SECRET:-change-me-in-production-use-long-random-string}
+      JWT_SECRET: ${JWT_SECRET}
       CORS_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
     ports:
       - "8001:8000"
@@ -75,8 +115,8 @@ services:
       dockerfile: Dockerfile
     container_name: ec_email_worker
     environment:
-      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-ecuser}:${POSTGRES_PASSWORD:-ecsecret}@postgres:5432/${POSTGRES_DB:-ecommerce}
-      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/%2F
+      DATABASE_URL: ${DATABASE_URL}
+      RABBITMQ_URL: ${RABBITMQ_URL}
       RABBITMQ_QUEUE_NAME: email_jobs
       EMAIL_FROM_ADDRESS: no-reply@marketgrid.local
     depends_on:
@@ -101,3 +141,4 @@ services:
 volumes:
   pg_data:
   mongo_data:
+  prom_data:

@@ -6,6 +6,12 @@ from decimal import Decimal
 
 from sqlalchemy import func, select
 
+import os
+import sys
+
+# Add the project root to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from app.database.session import SessionLocal
 from app.models import (
     Address,
