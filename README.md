@@ -33,7 +33,7 @@
 
 ### 📌 Demonstrates Core DBMS Concepts
 
-**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC · Polyglot Persistence**
+**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC · Monitoring**
 
 
 ### 🌐 Live App
