@@ -31,9 +31,9 @@
 
 </p>
 
-### 📌 Demonstrates Core DBMS Concepts
+### 📌 Demonstrates Core DBMS Concepts and Monitoring
 
-**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC · Monitoring**
+**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC**
 
 
 ### 🌐 Live App
