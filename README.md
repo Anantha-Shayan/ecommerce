@@ -218,7 +218,85 @@ Implemented trigger workflows:
 
 ---
 
-## MongoDB Usage
+# 📈 Monitoring & Observability
+
+MarketGrid includes a production-style monitoring and observability stack using:
+
+- Prometheus
+- Grafana
+- Node Exporter
+- PostgreSQL Exporter
+- RabbitMQ Exporter
+- Application Metrics Exporter
+
+This setup enables real-time infrastructure, database, queue, and application monitoring.
+
+## Monitoring Architecture
+
+| Component | Purpose |
+|---|---|
+| Prometheus | Metrics collection & storage |
+| Grafana | Visualization dashboards |
+| Node Exporter | VM and system metrics |
+| PostgreSQL Exporter | Database monitoring |
+| RabbitMQ Exporter | Queue monitoring |
+| App Metrics Exporter | FastAPI application metrics |
+
+---
+
+## Metrics Monitored
+
+### Infrastructure Metrics
+Collected using **Node Exporter**:
+- CPU utilization
+- Memory usage
+- Disk usage
+- Network traffic
+- System load
+
+### PostgreSQL Metrics
+Collected using **PostgreSQL Exporter**:
+- Active connections
+- Transaction throughput
+- Query statistics
+- Cache hit ratio
+- Database uptime
+
+### RabbitMQ Metrics
+Collected using **RabbitMQ Exporter**:
+- Queue depth
+- Message throughput
+- Consumer activity
+- Queue acknowledgements
+
+### Application Metrics
+Collected from the FastAPI metrics endpoint:
+- HTTP request count
+- API request latency
+- Endpoint usage
+- Response status codes
+- Application uptime
+
+---
+
+## Why Monitoring Was Added
+
+The monitoring stack demonstrates how production systems maintain:
+
+- observability
+- reliability
+- performance analysis
+- infrastructure monitoring
+- backend health tracking
+- database monitoring
+- queue monitoring
+- application performance monitoring
+
+This extends the project beyond a traditional CRUD application into a production-oriented distributed backend system.
+
+---
+
+## MongoDB Usage (Yet to be implemented)
 
 MongoDB stores:
 
