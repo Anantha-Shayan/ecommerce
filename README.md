@@ -35,6 +35,11 @@
 
 **Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC**
 
+<p align="center">
+  <a href="https://ecommerce.ananthadev.online">
+    <img src="https://img.shields.io/badge/Deployed%20on-Google%20Cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" />
+  </a>
+</p>
 
 ### 🌐 Live App
 **https://ecommerce.ananthadev.online**
