@@ -3,6 +3,8 @@ kind: ConfigMap
 
 metadata:
   name: postgres-configmap
+  namespace: ecommerce
+
 data:
   postgres-host: postgres
-  postgres-port: 5432
+  postgres-port: '5432'
