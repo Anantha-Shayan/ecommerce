@@ -40,3 +40,6 @@ frontend/dist/
 #prometheus and grafana
 grafana-data/
 prometheus-data/
+
+# k8s secrets
+secret.yaml
