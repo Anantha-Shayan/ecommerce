@@ -44,27 +44,15 @@
 
 ---
 
-## Project Snapshot
+## Overview
 
-| **Area** | **Status** | **Notes** |
-|---|---|---|
-| **E-Commerce Application** | Implemented | Transactional buyer, seller, and admin workflows |
-| **PostgreSQL Relational Core** | Implemented | ACID transactions, row-level locking, views, and triggers |
-| **MongoDB Integration** | Implemented | NoSQL document store for application activity/log data |
-| **RabbitMQ Event Broker** | Implemented | Event publisher for checkout notification events |
-| **Docker Compose** | Implemented | Original multi-container local deployment |
-| **Kubernetes / Minikube** | Implemented | Declarative local cluster deployment and orchestration |
-| **NGINX Ingress** | Implemented | Unified L7 path-based routing (`/` and `/api`) |
-| **Rolling Updates** | Implemented | Controlled backend version rollout with Kubernetes Deployments |
-| **Horizontal Pod Autoscaler (HPA)** | Implemented | CPU-based backend scaling from 2 to 5 Pods |
-| **Prometheus & Grafana** | Implemented | Kubernetes/node metrics collection and visualization |
-| **k6 Load Testing** | Planned | Load testing and observation of HPA/system behavior |
-| **Helm Charts** | Planned | Reusable Kubernetes package/deployment management |
-| **AWS / EKS Deployment** | Planned | Cloud deployment after completing the local Kubernetes workflow |
-| **Asynchronous Worker Service** | Planned | RabbitMQ consumer for background notification processing |
+MarketGrid is an e-commerce platform built to demonstrate the integration of database engineering and cloud-native infrastructure. The platform showcases how relational DBMS constraints, polyglot persistence, asynchronous messaging, and container orchestration interoperate in a microservice ecosystem.
+
+The system handles transactional checkouts with PostgreSQL ACID guarantees, streams system telemetry into MongoDB, offloads order events to RabbitMQ, and dynamically scales backend pods via Horizontal Pod Autoscalers (HPA) behind an NGINX Ingress controller.
+
 ## Table of Contents
 
-- [Overview](#overview)
+- [Project Snapshot](#project-snapshot)
 
 - [Features](#features)
 
@@ -100,15 +88,26 @@
 
 - [Future Improvements](#future-improvements)
 
-- [Lessons Learned](#lessons-learned)
+  
+## Project Snapshot
 
-- [License](#license)
+| **Area** | **Status** | **Notes** |
+|---|---|---|
+| **E-Commerce Application** | Implemented | Transactional buyer, seller, and admin workflows |
+| **PostgreSQL Relational Core** | Implemented | ACID transactions, row-level locking, views, and triggers |
+| **MongoDB Integration** | Implemented | NoSQL document store for application activity/log data |
+| **RabbitMQ Event Broker** | Implemented | Event publisher for checkout notification events |
+| **Docker Compose** | Implemented | Original multi-container local deployment |
+| **Kubernetes / Minikube** | Implemented | Declarative local cluster deployment and orchestration |
+| **NGINX Ingress** | Implemented | Unified L7 path-based routing (`/` and `/api`) |
+| **Rolling Updates** | Implemented | Controlled backend version rollout with Kubernetes Deployments |
+| **Horizontal Pod Autoscaler (HPA)** | Implemented | CPU-based backend scaling from 2 to 5 Pods |
+| **Prometheus & Grafana** | Implemented | Kubernetes/node metrics collection and visualization |
+| **k6 Load Testing** | Planned | Load testing and observation of HPA/system behavior |
+| **Helm Charts** | Planned | Reusable Kubernetes package/deployment management |
+| **AWS / EKS Deployment** | Planned | Cloud deployment after completing the local Kubernetes workflow |
+| **Asynchronous Worker Service** | Planned | RabbitMQ consumer for background notification processing |
 
-## Overview
-
-MarketGrid is an e-commerce platform built to demonstrate the integration of database engineering and cloud-native infrastructure. The platform showcases how relational DBMS constraints, polyglot persistence, asynchronous messaging, and container orchestration interoperate in a microservice ecosystem.
-
-The system handles transactional checkouts with PostgreSQL ACID guarantees, streams system telemetry into MongoDB, offloads order events to RabbitMQ, and dynamically scales backend pods via Horizontal Pod Autoscalers (HPA) behind an NGINX Ingress controller.
 
 ## Features
 
