@@ -34,6 +34,10 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
+@app.get("/ready")
+def ready():
+    return {"status": "ready"}
+
 
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(categories.router, prefix="/api/categories", tags=["categories"])
