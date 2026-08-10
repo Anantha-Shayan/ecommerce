@@ -31,474 +31,382 @@
 
 </p>
 
-### 📌 Demonstrates Core DBMS Concepts and Monitoring
 
-**Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC**
+**DBMS:** Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC
 
-<p align="center">
-  <a href="https://ecommerce.ananthadev.online">
-    <img src="https://img.shields.io/badge/Deployed%20on-Google%20Cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" />
-  </a>
-</p>
+**Infrastructure:** Kubernetes · Docker Compose · Minikube · NGINX Ingress · HPA
 
-### 🌐 Live App
-**https://ecommerce.ananthadev.online**
+**Observability:** Prometheus · Grafana · Node Exporter
+
+> 🚧 The current Kubernetes deployment runs locally on Minikube. AWS deployment is planned.
 
 </div>
 
 ---
 
-# ✨ Overview
+## Project Snapshot
 
-MarketGrid is a production-style e-commerce application built to demonstrate practical DBMS concepts in a realistic system workflow.
-
-The project focuses heavily on:
-
-- Relational schema design
-- Normalization
-- ACID transactions
-- Concurrency control
-- SQL triggers & views
-- RBAC authorization
-- Polyglot persistence
-- Event-driven architecture
-
-Unlike traditional academic mini-projects, this application demonstrates how DBMS concepts appear inside real software systems.
-
----
-
-# 🏗️ Architecture
-
-<p align="center">
-  <img src="./docs/images/architecture-diagram.png" width="100%" alt="Architecture Diagram"/>
-</p>
-
-## Architecture Summary
-
-- **React + Vite** provides the frontend UI
-- **FastAPI** exposes REST APIs
-- **PostgreSQL** handles transactional relational data
-- **MongoDB** stores flexible logs & telemetry
-- **RabbitMQ** handles asynchronous processing
-- **Docker Compose** orchestrates all services
-
-### Why this architecture?
-
-| Component | Why Used |
-|---|---|
-| PostgreSQL | ACID transactions, joins, constraints, triggers |
-| MongoDB | Flexible event logging & telemetry |
-| RabbitMQ | Async email & event processing |
-| FastAPI | Fast REST APIs with dependency injection |
-| React | Realistic frontend workflow |
-
----
-
-# 🧩 ER Diagram
-
-<p align="center">
-  <img src="./docs/images/er-diagram.png" width="100%" alt="ER Diagram"/>
-</p>
-
-## Main Entities
-
-- Users
-- Roles
-- Permissions
-- Products
-- Categories
-- Inventory
-- Orders
-- Payments
-- Reviews
-- Cart Items
-- Wishlist Items
-- Notifications
-
-### Relationships Demonstrated
-
-- One-to-many
-- Many-to-many
-- Transactional relationships
-- RBAC bridge tables
-
----
-
-# ⚡ Quick Start
-
-## Run Entire Application
-
-```bash
-docker compose up --build
-```
-
----
-
-# 🌐 Services
-
-| Service | URL |
-|---|---|
-| Frontend | http://localhost:5173 |
-| Backend API | http://localhost:8001 |
-| Swagger Docs | http://localhost:8001/docs |
-| PostgreSQL | localhost:5432 |
-| MongoDB | localhost:27017 |
-| RabbitMQ | localhost:5672 |
-| RabbitMQ Dashboard | http://localhost:15672 |
-
----
-
-# 🔑 Seeded Demo Accounts
-
-| Role | Email | Password |
+| **Area** | **Status** | **Notes** |
 |---|---|---|
-| Admin | admin@example.com | Admin123! |
-| Seller | seller@example.com | Seller123! |
-| Buyer | buyer@example.com | Buyer123! |
+| **E-Commerce Application** | Implemented | Transactional buyer, seller, and admin workflows |
+| **PostgreSQL Relational Core** | Implemented | ACID transactions, row-level locking, views, and triggers |
+| **MongoDB Integration** | Implemented | NoSQL document store for application activity/log data |
+| **RabbitMQ Event Broker** | Implemented | Event publisher for checkout notification events |
+| **Docker Compose** | Implemented | Original multi-container local deployment |
+| **Kubernetes / Minikube** | Implemented | Declarative local cluster deployment and orchestration |
+| **NGINX Ingress** | Implemented | Unified L7 path-based routing (`/` and `/api`) |
+| **Rolling Updates** | Implemented | Controlled backend version rollout with Kubernetes Deployments |
+| **Horizontal Pod Autoscaler (HPA)** | Implemented | CPU-based backend scaling from 2 to 5 Pods |
+| **Prometheus & Grafana** | Implemented | Kubernetes/node metrics collection and visualization |
+| **k6 Load Testing** | Planned | Load testing and observation of HPA/system behavior |
+| **Helm Charts** | Planned | Reusable Kubernetes package/deployment management |
+| **AWS / EKS Deployment** | Planned | Cloud deployment after completing the local Kubernetes workflow |
+| **Asynchronous Worker Service** | Planned | RabbitMQ consumer for background notification processing |
+## Table of Contents
 
-### Coupon
-```txt
-SAVE10
+- [Overview](#overview)
+
+- [Features](#features)
+
+- [Tech Stack](#tech-stack)
+
+- [Architecture](#architecture)
+
+- [System Design](#system-design)
+
+- [DBMS Concepts](#dbms-concepts)
+
+- [Kubernetes & Infrastructure](#kubernetes--infrastructure)
+
+- [Infrastructure Diagram](#infrastructure-diagram)
+
+- [Monitoring & Observability](#monitoring--observability)
+
+- [Project Structure](#project-structure)
+
+- [API Documentation](#api-documentation)
+
+- [Quick Start](#quick-start)
+
+- [Docker Compose Deployment](#docker-compose-deployment)
+
+- [Kubernetes Deployment Guide](#kubernetes-deployment-guide)
+
+- [Monitoring Setup](#monitoring-setup)
+
+- [CI/CD](#cicd)
+
+- [Deployment Evolution](#deployment-evolution)
+
+- [Future Improvements](#future-improvements)
+
+- [Lessons Learned](#lessons-learned)
+
+- [License](#license)
+
+## Overview
+
+MarketGrid is an e-commerce platform built to demonstrate the integration of database engineering and cloud-native infrastructure. The platform showcases how relational DBMS constraints, polyglot persistence, asynchronous messaging, and container orchestration interoperate in a microservice ecosystem.
+
+The system handles transactional checkouts with PostgreSQL ACID guarantees, streams system telemetry into MongoDB, offloads order events to RabbitMQ, and dynamically scales backend pods via Horizontal Pod Autoscalers (HPA) behind an NGINX Ingress controller.
+
+## Features
+
+### Application
+
+- **Buyer Workflows:** Product catalog, cart management, checkout execution, order history, wishlist, and product reviews.
+
+- **Seller Workflows:** Inventory allocation, product publishing, stock management, and fulfillment tracking.
+
+- **Admin Operations:** User management, catalog moderation, audit tracking, and platform analytics.
+
+### Backend
+
+- **FastAPI Microservices:** High-performance REST APIs powered by Pydantic DTOs and SQLAlchemy ORM.
+
+- **Auth & Security:** OAuth2 JWT authentication and Role-Based Access Control (RBAC).
+
+- **Asynchronous Integration:** Event publishing to RabbitMQ and activity logging to MongoDB.
+
+### Database Engineering
+
+- **PostgreSQL:** ACID-compliant checkout transactions, pessimistic row-level locking (`SELECT ... FOR UPDATE`), triggers, views, and SQL functions.
+
+- **MongoDB:** Document store for unstructured application logs and activity records.
+
+### Infrastructure & Monitoring
+
+- **Kubernetes:** Declarative deployments, services, ConfigMaps, Secrets, and NGINX Ingress routing.
+
+- **Scaling & Resilience:** Metrics Server integration, HPA auto-scaling (2 to 5 replicas), and rolling updates.
+
+- **Observability:** Cluster-level metric scraping via Prometheus, Node Exporter telemetry, and Grafana visualization.
+
+## Tech Stack
+
+| **Layer**              | **Technology**                     | **Purpose**                                      |
+| ---------------------- | ---------------------------------- | ------------------------------------------------ |
+| **Frontend**           | React 18, Vite, Tailwind CSS       | Single Page Application (SPA) UI                 |
+| **Backend**            | Python 3.12, FastAPI, SQLAlchemy   | REST API framework & ORM layer                   |
+| **Database Migration** | Alembic                            | Version-controlled schema migrations             |
+| **Relational DB**      | PostgreSQL 15                      | Transactional core data store                    |
+| **NoSQL DB**           | MongoDB 6                          | Unstructured log & document store                |
+| **Message Broker**     | RabbitMQ 3                         | Distributed message broker                       |
+| **Containerization**   | Docker, Docker Compose             | Container packaging & local orchestration        |
+| **Orchestration**      | Kubernetes, Minikube               | Cluster deployment, networking, and scaling      |
+| **Networking**         | NGINX Ingress Controller           | Ingress routing (`/` and `/api`)                 |
+| **Scaling**            | Metrics Server, HPA                | Resource-based horizontal pod autoscaling        |
+| **Observability**      | Prometheus, Grafana, Node Exporter | Cluster metrics scraping & visualization         |
+| **CI/CD**              | GitHub Actions                     | Automated linting, testing, and container builds |
+
+## Architecture
+
+Traffic enters the cluster through an NGINX Ingress Controller, which routes `/` to the Frontend Service and `/api` to the Backend Service. The backend communicates with PostgreSQL for relational operations, MongoDB for logging, and RabbitMQ for event distribution.
+
+<p align="center">
+  <img src="./docs/images/k8s-architecture-diagram.png" width="100%" alt="Architecture Diagram"/>
+</p>
+
+
+### Component Roles
+
+- **NGINX Ingress:** Handles incoming L7 traffic and path routing.
+
+- **Frontend Pods:** Serves compiled static React + Vite web assets.
+
+- **Backend Pods:** Executes FastAPI endpoints, JWT auth, and database transactions.
+
+- **PostgreSQL:** Persists users, products, orders, and payments under ACID transactions.
+
+- **MongoDB:** Stores non-relational system and access logs.
+
+- **RabbitMQ:** Receives order-completed events.
+
+## System Design
+
+- **Frontend:** Built with React 18 and Vite. Interacts asynchronously with backend APIs via HTTP JSON calls.
+
+- **Backend:** Built with FastAPI. Uses SQLAlchemy for PostgreSQL sessions, Motor/PyMongo for MongoDB logs, and pika for RabbitMQ event publishing.
+
+- **Polyglot Storage:** Relational data requiring strong consistency resides in PostgreSQL. Dynamic, unstructured logs reside in MongoDB.
+
+- **Kubernetes Control:** Deployments handle stateless applications, Services provide internal cluster IPs, ConfigMaps/Secrets supply runtime environment variables, and HPA maintains backend target utilization.
+
+## DBMS Concepts
+
+- **Normalization:** The relational database is normalized to 3rd Normal Form (3NF) to guarantee schema integrity and eliminate redundancy.
+
+- **ACID Transactions:** Cart checkouts execute inside an atomic transaction block: cart verification -> stock locking -> stock deduction -> order insertion -> payment record -> cart purge -> commit/rollback.
+
+- **Concurrency Control:** Employs row-level locking via `SELECT ... FOR UPDATE` during checkouts to prevent race conditions and stock overselling.
+
+- **Relational Constraints:** Enforces Primary Keys, Foreign Keys (`ON DELETE CASCADE` / `RESTRICT`), UNIQUE constraints on emails, and CHECK constraints on stock and prices.
+
+- **Triggers & Views:** Uses PL/pgSQL triggers to update modification timestamps automatically, and relational views (e.g., `v_top_selling_products`) for pre-aggregated analytics.
+
+- **RBAC Enforcement:** Maps users to system roles (`BUYER`, `SELLER`, `ADMIN`), enforced across API dependencies.
+
+## Kubernetes & Infrastructure
+
+- **Cluster Environment:** Configured for local Minikube execution across two isolated namespaces: `ecommerce` (Core Application) and `monitoring` (Observability).
+
+- **Services & Networking:** Internal communication occurs via ClusterIP Services. External access is unified under NGINX Ingress.
+
+- **Rolling Updates:** Deployments specify a `RollingUpdate` strategy (`maxSurge: 1`, `maxUnavailable: 0`) for continuous availability during image updates.
+
+- **HPA Configuration:**
+
+  - Target: Backend Deployment CPU utilization at 60%.
+
+  - Range: Minimum 2 replicas, maximum 5 replicas.
+
+  - Scale-Up: 100% expansion per 60 seconds.
+
+  - Scale-Down: 50% reduction per 60 seconds with a 60-second stabilization window.
+
+## Infrastructure Diagram
+
+```
+─────────────────────────────────────────────────────────────────────────────────
+                                MINIKUBE CLUSTER
+─────────────────────────────────────────────────────────────────────────────────
+
+ [ End Users ] ──► Ingress ──► Services ──► Deployments ──► Pods
+                                                                │
+                                    ┌───────────────────────────┼───────────────────────────┐
+                                    ▼                           ▼                           ▼
+                              PostgreSQL 15                 MongoDB 6                   RabbitMQ 3
+                           (ecommerce namespace)       (ecommerce namespace)       (ecommerce namespace)
+
+ [ Metrics Server ] ──► [ Backend HPA ] ──► [ Backend Deployment ]
+
+ [ Node Exporter ] ──► [ Prometheus ] ──► [ Grafana ]
+ (monitoring namespace)  (monitoring namespace)  (monitoring namespace)
+
 ```
 
----
+## Monitoring & Observability
 
-# 🧠 DBMS Concepts Demonstrated
+Observability is decoupled from autoscaling:
 
-## PostgreSQL Features
+- **Metrics Server:** Fetches temporary resource metrics (CPU/Memory) used exclusively by the HPA controller for scaling actions.
 
-- Normalized relational schema
-- Primary & foreign keys
-- CHECK & UNIQUE constraints
-- Transactions & rollback
-- `SELECT ... FOR UPDATE`
-- SQL joins & aggregates
-- Views
-- SQL functions
-- Triggers
-- Audit logging
+- **Prometheus:** Scrapes and stores time-series metric data from cluster nodes and services.
 
----
+- **Grafana:** Connects to Prometheus to render visualization dashboards.
 
-## ACID Transaction Demonstration
+- **Node Exporter:** Runs in the `monitoring` namespace to collect system-level hardware metrics.
 
-Checkout flow performs:
+## Project Structure
 
-1. Cart validation
-2. Inventory locking
-3. Order creation
-4. Order item insertion
-5. Payment insertion
-6. Cart cleanup
-7. Commit / rollback
+```
+ecommerce/
+├── .github/
+│   └── workflows/          # CI/CD pipeline definitions (ci.yml, cd.yml)
+├── backend/
+│   ├── alembic/            # Database schema migration scripts
+│   ├── app/                # FastAPI source code (api, models, routes, schemas)
+│   ├── scripts/            # Database seeding utilities
+│   ├── Dockerfile          # Backend container image specification
+│   └── requirements.txt    # Python dependencies
+├── frontend/
+│   ├── src/                # React source code
+│   ├── Dockerfile          # Frontend container image specification
+│   └── package.json        # Node.js dependencies
+├── k8s/                    # Kubernetes Declarative Manifests
+│   ├── namespace.yaml      # ecommerce namespace definition
+│   ├── configmap.yaml      # Non-sensitive configuration
+│   ├── secrets.yaml        # Base64 encoded secrets
+│   ├── *-deployment.yaml   # Workload manifests (postgres, mongo, rabbitmq, etc.)
+│   ├── ingress.yaml        # NGINX Ingress routing rules
+│   └── monitoring/         # Observability manifests (prometheus, grafana, etc.)
+├── docs/                   # Documentation resources & visual diagrams
+├── docker-compose.yml      # Multi-container orchestration specification
+└── README.md               # Main repository guide
 
-If any step fails, the entire transaction rolls back.
-
----
-
-## Concurrency Control
-
-The application uses:
-
-```sql
-SELECT ... FOR UPDATE
 ```
 
-to prevent:
+## API Documentation
 
-- Overselling inventory
-- Race conditions
-- Concurrent stock corruption
+FastAPI generates interactive documentation available when running the application:
 
----
+- **Swagger UI:** `/api/docs`
 
-## PostgreSQL Triggers
+- **ReDoc:** `/api/redoc`
 
-Implemented trigger workflows:
+### Key Endpoints
 
-- Inventory auto decrement
-- Low stock notifications
-- Order confirmation after payment
-- SQL audit logging before delete
+| **Group**    | **Method** | **Endpoint**           | **Description**            | **Authentication** |
+| ------------ | ---------- | ---------------------- | -------------------------- | ------------------ |
+| **Auth**     | `POST`     | `/api/auth/register`   | Register new user account  | None               |
+| **Auth**     | `POST`     | `/api/auth/login`      | Authenticate and issue JWT | None               |
+| **Products** | `GET`      | `/api/products`        | List and filter catalog    | None               |
+| **Products** | `POST`     | `/api/products`        | Create product listing     | Seller / Admin     |
+| **Cart**     | `GET`      | `/api/cart`            | Get shopping cart          | Buyer              |
+| **Cart**     | `POST`     | `/api/cart`            | Add product to cart        | Buyer              |
+| **Orders**   | `POST`     | `/api/orders/checkout` | Execute ACID cart checkout | Buyer              |
+| **Orders**   | `GET`      | `/api/orders`          | View user order history    | Buyer              |
+| **Reviews**  | `POST`     | `/api/reviews`         | Submit product review      | Buyer              |
+| **Wishlist** | `GET`      | `/api/wishlist`        | Get user wishlist          | Buyer              |
+| **Seller**   | `GET`      | `/api/seller/products` | View seller inventory      | Seller             |
+| **Admin**    | `GET`      | `/api/admin/users`     | List platform users        | Admin              |
 
----
+## Quick Start
 
-# 📈 Monitoring & Observability
+Run the complete multi-service application locally:
 
-MarketGrid includes a production-style monitoring and observability stack using:
+1. Clone the repository.
 
-- Prometheus
-- Grafana
-- Node Exporter
-- PostgreSQL Exporter
-- RabbitMQ Exporter
-- Application Metrics Exporter
+2. Run the multi-container stack using Docker Compose: `docker compose up --build`
 
-This setup enables real-time infrastructure, database, queue, and application monitoring.
+3. Access the Frontend at `http://localhost:3000`.
 
-## Monitoring Architecture
+4. Access the API Documentation at `http://localhost:8000/docs`.
 
-| Component | Purpose |
-|---|---|
-| Prometheus | Metrics collection & storage |
-| Grafana | Visualization dashboards |
-| Node Exporter | VM and system metrics |
-| PostgreSQL Exporter | Database monitoring |
-| RabbitMQ Exporter | Queue monitoring |
-| App Metrics Exporter | FastAPI application metrics |
+## Docker Compose Deployment
 
----
+Docker Compose served as the original deployment method for containerization and local development:
 
-## Metrics Monitored
+- **Container Isolation:** Standardizes dependencies across environments.
 
-### Infrastructure Metrics
-Collected using **Node Exporter**:
-- CPU utilization
-- Memory usage
-- Disk usage
-- Network traffic
-- System load
+- **Service Networking:** Establishes automatic DNS resolution between container services.
 
-### PostgreSQL Metrics
-Collected using **PostgreSQL Exporter**:
-- Active connections
-- Transaction throughput
-- Query statistics
-- Cache hit ratio
-- Database uptime
+- **Local Iteration:** Facilitates rapid testing of multi-tier interactions prior to Kubernetes deployment.
 
-### RabbitMQ Metrics
-Collected using **RabbitMQ Exporter**:
-- Queue depth
-- Message throughput
-- Consumer activity
-- Queue acknowledgements
+## Kubernetes Deployment Guide
 
-### Application Metrics
-Collected from the FastAPI metrics endpoint:
-- HTTP request count
-- API request latency
-- Endpoint usage
-- Response status codes
-- Application uptime
+Deploy into Minikube using the declarative manifests in `k8s/`:
 
----
+1. Start Minikube with required addons: `ingress` and `metrics-server`.
 
-## Why Monitoring Was Added
+2. Point your terminal to Minikube's Docker daemon and build the application images.
 
-The monitoring stack demonstrates how production systems maintain:
+3. Apply the manifests in sequence: `namespace.yaml`, `configmap.yaml`, `secrets.yaml`, infrastructure deployments (`postgres`, `mongo`, `rabbitmq`), microservices (`backend`, `frontend`), and `ingress.yaml`.
 
-- observability
-- reliability
-- performance analysis
-- infrastructure monitoring
-- backend health tracking
-- database monitoring
-- queue monitoring
-- application performance monitoring
+4. Verify resource creation using standard `kubectl get` commands (`pods`, `svc`, `ingress`, `hpa`).
 
-This extends the project beyond a traditional CRUD application into a production-oriented distributed backend system.
+5. Map `marketgrid.local` to the Minikube IP address in your hosts file to access the system.
 
----
+## Monitoring Setup
 
-## MongoDB Usage (Yet to be implemented)
+Deploy observability tools into the `monitoring` namespace:
 
-MongoDB stores:
+1. Apply manifests in `k8s/monitoring/` (`node-exporter.yaml`, `prometheus.yaml`, `grafana.yaml`).
 
-- Product view logs
-- Recommendation logs
-- User activity logs
-- Notification logs
-- Support chat logs
-- Flexible audit events
+2. Verify running pods in the `monitoring` namespace.
 
-This demonstrates **polyglot persistence**.
+3. Access Grafana at `http://localhost:3001` or Prometheus at `http://localhost:9090` by forwarding service ports locally.
 
----
+## CI/CD
 
-# 🔐 RBAC (Role-Based Access Control)
+Automated workflows are configured in `.github/workflows/`:
 
-Roles implemented:
+- **`ci.yml`:** Executes Flake8 linting and Pytest unit tests on the backend, runs ESLint and production builds on the frontend, and verifies Docker image builds on every push.
 
-- Admin
-- Seller
-- Customer
+- **Deployment Execution:** Kubernetes cluster deployment is currently performed manually from the local development environment.
 
-Database tables:
+## Deployment Evolution
 
-- users
-- roles
-- permissions
-- user_roles
-- role_permissions
+```
+Phase 1: Application & DBMS Design
+E-Commerce Monolith + PostgreSQL + MongoDB + RabbitMQ
+  │
+  ▼
+Phase 2: Docker Compose
+Containerized Multi-Service Deployment
+  │
+  ▼
+Phase 3: Kubernetes Orchestration
+Minikube Cluster (Pods, Deployments, Services, ConfigMaps, Secrets)
+  │
+  ▼
+Phase 4: Networking & Dynamic Scaling
+NGINX Ingress Controller + Rolling Updates + Metrics Server + HPA
+  │
+  ▼
+Phase 5: Cluster Observability
+Prometheus + Grafana + Node Exporter
+  │
+  ▼
+Next: Planned Improvements
+Background Worker Service + Helm Charts + AWS EKS Migration
 
-FastAPI dependencies enforce authorization at API level.
-
----
-
-# 📦 Project Structure
-
-```bash
-ecommerce-dbms/
-│
-├── backend/        # FastAPI backend
-├── frontend/       # React frontend
-├── docs/           # Documentation & diagrams
-├── docker-compose.yml
-└── README.md
 ```
 
----
+## Future Improvements
 
-# 🔌 API Surface
+The following improvements are planned for future releases:
 
-## Authentication
+- Complete asynchronous Worker Service for RabbitMQ event processing.
 
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/auth/me`
+- Convert raw Kubernetes manifests into a modular Helm chart.
 
-## Products
+- AWS EKS deployment with managed RDS PostgreSQL and DocumentDB.
 
-- `GET /api/products`
-- `GET /api/products/{id}`
-- `POST /api/products/seller`
+- Implement k6 load testing scripts to evaluate HPA scaling dynamics under heavy traffic.
 
-## Cart & Checkout
+- Add PostgreSQL Exporter and RabbitMQ Exporter to Prometheus.
 
-- `GET /api/cart`
-- `POST /api/cart`
-- `POST /api/orders/checkout`
+- Introduce Kubernetes `NetworkPolicies` for fine-grained pod communication security.
 
-## Wishlist & Reviews
-
-- `GET /api/wishlist`
-- `POST /api/reviews/product/{id}`
-
-## Admin APIs
-
-- `/api/admin/analytics/*`
-- `/api/admin/audit/sql`
-- `/api/admin/products/*`
-
-## Seller APIs
-
-- `/api/seller/orders`
-- `/api/seller/analytics/sales`
-
----
-
-# 📊 SQL Views
-
-The application includes analytical views:
-
-- `v_top_selling_products`
-- `v_monthly_sales`
-- `v_active_customers`
-
-These simplify complex reporting queries.
-
----
-
-# 🧮 SQL Function
-
-Custom reusable SQL function:
-
-```sql
-fn_order_item_subtotal(order_id, product_id)
-```
-
-Used for reusable subtotal calculations.
-
----
-
-# 📨 RabbitMQ Event Flow
-
-RabbitMQ is used for:
-
-- Email job queues
-- Async notifications
-- Event processing
-
-The worker service consumes queued events asynchronously.
-
----
-
-# 🐳 Dockerized Deployment
-
-All services are containerized using Docker Compose.
-
-Benefits:
-
-- Easy setup
-- Consistent environments
-- Simplified deployment
-- Service isolation
-
----
-
-# 📚 Documentation
-
-Additional documentation available inside:
-
-```bash
-docs/
-```
-
-Includes:
-
-- Normalization notes
-- Trigger explanations
-- Transaction walkthroughs
-- MongoDB justification
-- ER modeling notes
-
----
-
-# 🎯 Demo Highlights
-
-During project demonstration:
-
-- Login as buyer
-- Browse products
-- Add items to cart
-- Checkout transaction
-- Seller inventory management
-- Admin analytics dashboard
-- SQL audit log demonstration
-- MongoDB event logging
-
----
-
-# 🏁 Conclusion
-
-MarketGrid demonstrates how core DBMS concepts integrate into real-world software systems instead of isolated academic examples.
-
-The project combines:
-
-- Relational database design
-- Transaction management
-- Concurrency control
-- Trigger automation
-- RBAC security
-- Polyglot persistence
-- Event-driven architecture
-
-making it ideal for:
-
-- DBMS demonstrations
-- Viva presentations
-- Resume projects
-- Portfolio showcases
-
----
-
-# 📄 License
-
-Educational / Demonstration Use
-
----
-
-# ⭐ Acknowledgements
-
-Inspired by production-grade e-commerce architectures and modern database system design principles.
+- **Metrics Separation:** The Kubernetes Metrics Server serves short-term resource metrics for HPA, whereas Prometheus collects long-term metrics for historical observability.
