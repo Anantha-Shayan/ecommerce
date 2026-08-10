@@ -206,6 +206,13 @@ Traffic enters the cluster through an NGINX Ingress Controller, which routes `/`
 
 - **RBAC Enforcement:** Maps users to system roles (`BUYER`, `SELLER`, `ADMIN`), enforced across API dependencies.
 
+### ER Diagram
+
+<p align="center">
+  <img src="./docs/images/er-diagram.png" width="100%" alt="ER Diagram"/>
+</p>
+
+
 ## Kubernetes & Infrastructure
 
 - **Cluster Environment:** Configured for local Minikube execution across two isolated namespaces: `ecommerce` (Core Application) and `monitoring` (Observability).
