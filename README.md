@@ -223,6 +223,7 @@ flowchart LR
 ## Observability
 
 - **Host metrics:** node_exporter → Prometheus (5s scrape interval) → Grafana, with Prometheus provisioned as a Grafana datasource (`prometheus.yml`, `grafana.yml`).
+- **Cluster metrics:** an in-cluster Prometheus (`k8s/monitoring/prometheus/`) discovers nodes and pods through the Kubernetes API using a read-only ServiceAccount. It scrapes kubelet and cAdvisor container metrics, plus any pod annotated with `prometheus.io/scrape: "true"`.
 - **Autoscaling metrics:** in the cluster, the Kubernetes **Metrics Server** feeds the HPA. Short-lived scaling signals are kept separate from long-term Prometheus storage.
 - **Application logs:** structured activity documents in MongoDB, and email-job state with error messages in PostgreSQL.
 
@@ -313,7 +314,11 @@ kubectl apply -f k8s/backend/migration-job.yaml && kubectl -n ecommerce wait --f
 kubectl apply -f k8s/backend/seed-job.yaml
 kubectl apply -f k8s/backend/ -f k8s/frontend/ -f k8s/ingress/
 
-# 6. Verify
+# 6. (Optional) In-cluster Prometheus
+kubectl apply -f k8s/monitoring/prometheus/
+kubectl -n monitoring port-forward svc/prometheus 9090:9090   # http://localhost:9090
+
+# 7. Verify
 kubectl -n ecommerce get pods,svc,ingress,hpa
 echo "$(minikube ip) ecommerce.local" | sudo tee -a /etc/hosts
 ```
@@ -366,7 +371,7 @@ ecommerce/
 │   ├── frontend/  ingress/
 │   ├── postgres/  mongo/   # Deployments + PVCs + Services
 │   ├── rabbitmq/           # StatefulSet + Service
-│   └── monitoring/         # Prometheus (in progress)
+│   └── monitoring/         # Prometheus: RBAC, scrape ConfigMap, Deployment, Service (Grafana in progress)
 ├── deploy/                 # production compose + env template for the GCP VM
 ├── docs/                   # DATABASE.md, GCP_VM_DEPLOY.md, DEMO_REPORT.md, diagrams
 ├── docker-compose.yml      # full local stack, including the worker and monitoring
@@ -383,7 +388,8 @@ ecommerce/
 | ✅ | Outbox-style email pipeline over RabbitMQ with a dedicated worker |
 | ✅ | Docker Compose with CI/CD to a GCP VM through GHCR |
 | ✅ | Kubernetes: Ingress, rolling updates, probes, HPA, StatefulSet, migration Jobs |
-| 🚧 | Prometheus and Grafana inside the cluster (`monitoring` namespace) |
+| ✅ | Prometheus manifests for the `monitoring` namespace (Kubernetes service discovery for nodes, cAdvisor and annotated pods) |
+| 🚧 | Grafana inside the cluster |
 | 🚧 | Email worker as a Kubernetes Deployment (runs in Compose today) |
 | 🔜 | A relay that republishes `pending` email jobs if the in-request publish fails |
 | 🔜 | k6 load tests to characterize HPA behavior; pytest suite in CI |
