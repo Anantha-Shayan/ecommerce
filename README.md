@@ -1,44 +1,37 @@
 <div align="center">
 
-<img src="./frontend/marketgrid-logo.svg" alt="MarketGrid Logo" width="150"/>
+<img src="./docs/images/marketgrid-logo.svg" alt="MarketGrid logo" width="120"/>
 
-# 🛒 MarketGrid
+# MarketGrid
 
-<p align="center">
+**A multi-role e-commerce backend built to be correct under concurrency, decoupled through messaging, and run on Kubernetes.**
 
+[![CI](https://github.com/Anantha-Shayan/ecommerce/actions/workflows/ci.yml/badge.svg)](https://github.com/Anantha-Shayan/ecommerce/actions/workflows/ci.yml)
+[![CD](https://github.com/Anantha-Shayan/ecommerce/actions/workflows/cd.yml/badge.svg)](https://github.com/Anantha-Shayan/ecommerce/actions/workflows/cd.yml)
+![Last commit](https://img.shields.io/github/last-commit/Anantha-Shayan/ecommerce?style=flat)
+
+![Python](https://img.shields.io/badge/Python_3.12-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy_2.0-D71F00?style=flat&logo=sqlalchemy&logoColor=white)
+![Alembic](https://img.shields.io/badge/Alembic-6BA81E?style=flat)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL_16-4169E1?style=flat&logo=postgresql&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB_7-47A248?style=flat&logo=mongodb&logoColor=white)
+![RabbitMQ](https://img.shields.io/badge/RabbitMQ_3.13-FF6600?style=flat&logo=rabbitmq&logoColor=white)
+<br/>
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat&logo=kubernetes&logoColor=white)
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=flat&logo=postgresql&logoColor=white)
-![RabbitMQ](https://img.shields.io/badge/RabbitMQ-FF6600?style=flat&logo=rabbitmq&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![NGINX](https://img.shields.io/badge/NGINX_Ingress-009639?style=flat&logo=nginx&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white)
+![GHCR](https://img.shields.io/badge/GHCR-181717?style=flat&logo=github&logoColor=white)
+![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&logo=googlecloud&logoColor=white)
 ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat&logo=grafana&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=flat&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)
-![Python](https://img.shields.io/badge/python-3670A0?style=flat&logo=python&logoColor=ffdd54)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens)
-![GitHub Actions](https://img.shields.io/badge/github_actions-2671E5?style=flat&logo=github-actions&logoColor=white)
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?style=flat&logo=sqlalchemy&logoColor=white)
-![Alembic](https://img.shields.io/badge/Alembic-222222?style=flat)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=flat&logo=github&logoColor=white)
-![Linux](https://img.shields.io/badge/linux-FCC624?style=flat&logo=linux&logoColor=black)
-![Google Cloud](https://img.shields.io/badge/googlecloud-4285F4?style=flat&logo=google-cloud&logoColor=white)
-![node_exporter](https://img.shields.io/badge/node__exporter-339933?style=flat&logo=prometheus&logoColor=white)
-![postgres_exporter](https://img.shields.io/badge/postgres__exporter-336791?style=flat&logo=postgresql&logoColor=white)
-![rabbitmq_exporter](https://img.shields.io/badge/rabbitmq__exporter-FF6600?style=flat&logo=rabbitmq&logoColor=white)
+<br/>
+![React](https://img.shields.io/badge/React_18-20232A?style=flat&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
-</p>
-
-
-**DBMS:** Normalization · ACID Transactions · Concurrency Control · Triggers · Views · RBAC
-
-**Infrastructure:** Kubernetes · Docker Compose · Minikube · NGINX Ingress · HPA
-
-**Observability:** Prometheus · Grafana · Node Exporter
-
-> 🚧 The current Kubernetes deployment runs locally on Minikube. AWS deployment is planned.
+[Architecture](#architecture) · [Engineering decisions](#engineering-decisions) · [Quick start](#quick-start) · [Kubernetes](#deploying-to-kubernetes-minikube) · [Roadmap](#roadmap)
 
 </div>
 
@@ -46,373 +39,361 @@
 
 ## Overview
 
-MarketGrid is an e-commerce platform built to demonstrate the integration of database engineering and cloud-native infrastructure. The platform showcases how relational DBMS constraints, polyglot persistence, asynchronous messaging, and container orchestration interoperate in a microservice ecosystem.
+MarketGrid is an e-commerce platform with three roles (buyers, sellers and admins) and the backend work a real store needs: a checkout that cannot oversell stock, payment-triggered notifications that never block a request, and an operations story that goes from a single VM to a Kubernetes cluster.
 
-The system handles transactional checkouts with PostgreSQL ACID guarantees, streams system telemetry into MongoDB, offloads order events to RabbitMQ, and dynamically scales backend pods via Horizontal Pod Autoscalers (HPA) behind an NGINX Ingress controller.
+The project grew in stages, and each stage is still in the repo:
 
-## Table of Contents
+1. **Data layer first.** A normalized PostgreSQL schema (21 tables) that enforces business rules with constraints, PL/pgSQL triggers, views and an audit log, all versioned through Alembic.
+2. **Docker Compose on GCP.** GitHub Actions builds images, tags them with the commit SHA, pushes them to GHCR and deploys them over SSH to a GCP VM. Prometheus, Grafana and node_exporter monitor the host.
+3. **Kubernetes on Minikube.** Migrations run as Jobs, and the stack adds rolling updates with zero unavailability, startup, readiness and liveness probes, CPU-based autoscaling, StatefulSet-backed RabbitMQ and an NGINX Ingress.
 
-- [Project Snapshot](#project-snapshot)
+### At a glance
 
-- [Features](#features)
+| | |
+|---|---|
+| **API surface** | 43 REST endpoints across 13 routers, with OpenAPI docs generated automatically |
+| **Data model** | 21 relational tables, 7 triggers, 3 analytical views, 1 SQL function, 4 Alembic revisions |
+| **Persistence** | PostgreSQL for transactional data, MongoDB for high-volume activity logs |
+| **Async work** | Outbox-style email queue → RabbitMQ (durable queue, persistent messages) → worker |
+| **Runtime** | Docker Compose (local and GCP VM) and Kubernetes (Minikube) |
+| **Load data** | `bulk_seed.py` generates 200,000 products with inventory, to test queries and indexes at scale |
 
-- [Tech Stack](#tech-stack)
-
-- [Architecture](#architecture)
-
-- [System Design](#system-design)
-
-- [DBMS Concepts](#dbms-concepts)
-
-- [Kubernetes & Infrastructure](#kubernetes--infrastructure)
-
-- [Infrastructure Diagram](#infrastructure-diagram)
-
-- [Monitoring & Observability](#monitoring--observability)
-
-- [Project Structure](#project-structure)
-
-- [API Documentation](#api-documentation)
-
-- [Quick Start](#quick-start)
-
-- [Docker Compose Deployment](#docker-compose-deployment)
-
-- [Kubernetes Deployment Guide](#kubernetes-deployment-guide)
-
-- [Monitoring Setup](#monitoring-setup)
-
-- [CI/CD](#cicd)
-
-- [Deployment Evolution](#deployment-evolution)
-
-- [Future Improvements](#future-improvements)
-
-  
-## Project Snapshot
-
-| **Area** | **Status** | **Notes** |
-|---|---|---|
-| **E-Commerce Application** | Implemented | Transactional buyer, seller, and admin workflows |
-| **PostgreSQL Relational Core** | Implemented | ACID transactions, row-level locking, views, and triggers |
-| **MongoDB Integration** | Implemented | NoSQL document store for application activity/log data |
-| **RabbitMQ Event Broker** | Implemented | Event publisher for checkout notification events |
-| **Docker Compose** | Implemented | Original multi-container local deployment |
-| **Kubernetes / Minikube** | Implemented | Declarative local cluster deployment and orchestration |
-| **NGINX Ingress** | Implemented | Unified L7 path-based routing (`/` and `/api`) |
-| **Rolling Updates** | Implemented | Controlled backend version rollout with Kubernetes Deployments |
-| **Horizontal Pod Autoscaler (HPA)** | Implemented | CPU-based backend scaling from 2 to 5 Pods |
-| **Prometheus & Grafana** | Implemented | Kubernetes/node metrics collection and visualization |
-| **k6 Load Testing** | Planned | Load testing and observation of HPA/system behavior |
-| **Helm Charts** | Planned | Reusable Kubernetes package/deployment management |
-| **AWS / EKS Deployment** | Planned | Cloud deployment after completing the local Kubernetes workflow |
-| **Asynchronous Worker Service** | Planned | RabbitMQ consumer for background notification processing |
-
+---
 
 ## Features
 
-### Application
+**Buyers:** browse and filter the catalog, cart, saved addresses, coupon-aware checkout, simulated payments, order history, wishlist, reviews, in-app notifications and support tickets.
 
-- **Buyer Workflows:** Product catalog, cart management, checkout execution, order history, wishlist, and product reviews.
+**Sellers:** list products (each one waits for admin moderation), manage stock and reorder thresholds, see sales analytics and get automatic **low-stock alerts** from a database trigger.
 
-- **Seller Workflows:** Inventory allocation, product publishing, stock management, and fulfillment tracking.
+**Admins:** manage users and roles, moderate products, view platform-wide orders, see analytics (top sellers, monthly revenue, active customers) and read the **SQL audit log** of product deletions.
 
-- **Admin Operations:** User management, catalog moderation, audit tracking, and platform analytics.
+**Platform:** JWT authentication, role-based access control enforced through FastAPI dependencies, activity logging to MongoDB, and top-seller recommendations served from a SQL view.
 
-### Backend
-
-- **FastAPI Microservices:** High-performance REST APIs powered by Pydantic DTOs and SQLAlchemy ORM.
-
-- **Auth & Security:** OAuth2 JWT authentication and Role-Based Access Control (RBAC).
-
-- **Asynchronous Integration:** Event publishing to RabbitMQ and activity logging to MongoDB.
-
-### Database Engineering
-
-- **PostgreSQL:** ACID-compliant checkout transactions, pessimistic row-level locking (`SELECT ... FOR UPDATE`), triggers, views, and SQL functions.
-
-- **MongoDB:** Document store for unstructured application logs and activity records.
-
-### Infrastructure & Monitoring
-
-- **Kubernetes:** Declarative deployments, services, ConfigMaps, Secrets, and NGINX Ingress routing.
-
-- **Scaling & Resilience:** Metrics Server integration, HPA auto-scaling (2 to 5 replicas), and rolling updates.
-
-- **Observability:** Cluster-level metric scraping via Prometheus, Node Exporter telemetry, and Grafana visualization.
-
-## Tech Stack
-
-| **Layer**              | **Technology**                     | **Purpose**                                      |
-| ---------------------- | ---------------------------------- | ------------------------------------------------ |
-| **Frontend**           | React 18, Vite, Tailwind CSS       | Single Page Application (SPA) UI                 |
-| **Backend**            | Python 3.12, FastAPI, SQLAlchemy   | REST API framework & ORM layer                   |
-| **Database Migration** | Alembic                            | Version-controlled schema migrations             |
-| **Relational DB**      | PostgreSQL 15                      | Transactional core data store                    |
-| **NoSQL DB**           | MongoDB 6                          | Unstructured log & document store                |
-| **Message Broker**     | RabbitMQ 3                         | Distributed message broker                       |
-| **Containerization**   | Docker, Docker Compose             | Container packaging & local orchestration        |
-| **Orchestration**      | Kubernetes, Minikube               | Cluster deployment, networking, and scaling      |
-| **Networking**         | NGINX Ingress Controller           | Ingress routing (`/` and `/api`)                 |
-| **Scaling**            | Metrics Server, HPA                | Resource-based horizontal pod autoscaling        |
-| **Observability**      | Prometheus, Grafana, Node Exporter | Cluster metrics scraping & visualization         |
-| **CI/CD**              | GitHub Actions                     | Automated linting, testing, and container builds |
+---
 
 ## Architecture
 
-Traffic enters the cluster through an NGINX Ingress Controller, which routes `/` to the Frontend Service and `/api` to the Backend Service. The backend communicates with PostgreSQL for relational operations, MongoDB for logging, and RabbitMQ for event distribution.
-
 <p align="center">
-  <img src="./docs/images/k8s-architecture-diagram.png" width="100%" alt="Architecture Diagram"/>
+  <img src="./docs/images/k8s-architecture-diagram.png" width="85%" alt="MarketGrid Kubernetes architecture"/>
 </p>
 
+```mermaid
+flowchart LR
+    U([User]) --> ING[NGINX Ingress<br/>ecommerce.local]
+    ING -- "/" --> FE[Frontend<br/>React SPA on NGINX<br/>2 replicas]
+    ING -- "/api" --> BE[Backend<br/>FastAPI<br/>HPA 2 to 5 replicas]
 
-### Component Roles
+    BE -- "ACID transactions" --> PG[(PostgreSQL 16<br/>PVC 5Gi)]
+    BE -- "activity logs" --> MG[(MongoDB 7<br/>PVC 5Gi)]
+    BE -- "publish email job" --> MQ[[RabbitMQ<br/>StatefulSet]]
+    MQ -- "consume" --> W[Email worker]
+    W -- "mark sent / failed" --> PG
 
-- **NGINX Ingress:** Handles incoming L7 traffic and path routing.
+    MS[Metrics Server] -.-> HPA{{HPA<br/>CPU 60%}} -.-> BE
+    JOB[Jobs:<br/>alembic upgrade<br/>seed] -.-> PG
+```
 
-- **Frontend Pods:** Serves compiled static React + Vite web assets.
+| Component | Responsibility |
+|---|---|
+| **NGINX Ingress** | Single entry point; routes `/api` to the backend and everything else to the SPA |
+| **Backend (FastAPI)** | Auth, RBAC, catalog, checkout and analytics; stateless, so it scales horizontally |
+| **PostgreSQL** | Source of truth for users, inventory, orders and payments; enforces invariants with constraints and triggers |
+| **MongoDB** | Append-heavy logs (product views, recommendations, user activity, notifications, support chats) |
+| **RabbitMQ** | Durable queue that decouples payment confirmation from email delivery |
+| **Email worker** | Consumes jobs one at a time, updates delivery state and records failures |
 
-- **Backend Pods:** Executes FastAPI endpoints, JWT auth, and database transactions.
+---
 
-- **PostgreSQL:** Persists users, products, orders, and payments under ACID transactions.
+## Engineering decisions
 
-- **MongoDB:** Stores non-relational system and access logs.
+These are the decisions that shaped the system, and why I made them.
 
-- **RabbitMQ:** Receives order-completed events.
+### 1. Checkout is a single ACID transaction with deadlock-safe row locks
 
-## System Design
+`OrderCheckoutService` ([`order_transaction.py`](backend/app/services/order_transaction.py)) runs the whole checkout in one transaction:
 
-- **Frontend:** Built with React 18 and Vite. Interacts asynchronously with backend APIs via HTTP JSON calls.
+```text
+validate cart and address → validate coupon
+→ lock inventory rows (SELECT ... FOR UPDATE), ordered by product_id
+→ check stock and moderation status → compute totals
+→ insert order, order_items and payment → clear cart → COMMIT
+(any exception → ROLLBACK, so no partial order can exist)
+```
 
-- **Backend:** Built with FastAPI. Uses SQLAlchemy for PostgreSQL sessions, Motor/PyMongo for MongoDB logs, and pika for RabbitMQ event publishing.
+- **Pessimistic locking** with `SELECT ... FOR UPDATE` on `inventory` stops two concurrent checkouts from both reading `qty = 1` and overselling.
+- **Locks are always taken in `product_id` order.** If two carts share products, sorting gives every transaction the same lock order, which rules out lock-ordering deadlocks.
+- **Stock is decremented by a trigger** (`trg_after_order_item_insert`) in the same transaction, so stock and order items never disagree.
+- A `simulate_failure` flag forces a failure after the locks are taken, to show that the rollback leaves no trace.
 
-- **Polyglot Storage:** Relational data requiring strong consistency resides in PostgreSQL. Dynamic, unstructured logs reside in MongoDB.
+### 2. Notifications use a transactional outbox, not a fire-and-forget publish
 
-- **Kubernetes Control:** Deployments handle stateless applications, Services provide internal cluster IPs, ConfigMaps/Secrets supply runtime environment variables, and HPA maintains backend target utilization.
+Publishing to RabbitMQ inside a request has a classic failure mode: the DB commit succeeds but the publish fails, or the reverse. MarketGrid avoids that this way:
 
-## DBMS Concepts
+```mermaid
+sequenceDiagram
+    participant API as FastAPI
+    participant PG as PostgreSQL
+    participant MQ as RabbitMQ
+    participant W as Email worker
+    API->>PG: UPDATE payments SET status='Success'
+    Note over PG: trigger fn_enqueue_payment_success_email<br/>INSERT INTO email_queue (status='pending')<br/>ON CONFLICT (payment_id) DO NOTHING
+    PG-->>API: COMMIT (payment + email job are atomic)
+    API->>MQ: publish {email_queue_id} (durable, delivery_mode=2)
+    API->>PG: status: pending → published
+    MQ->>W: deliver (prefetch=1)
+    W->>PG: status → sent  (or failed + last_error)
+    W-->>MQ: ack (or nack, no requeue)
+```
 
-- **Normalization:** The relational database is normalized to 3rd Normal Form (3NF) to guarantee schema integrity and eliminate redundancy.
+- **The email job is written by a trigger in the same transaction as the payment.** A successful payment always has exactly one email job, because `UNIQUE(payment_id)` plus `ON CONFLICT DO NOTHING` makes the insert idempotent.
+- **Every state change is persisted** (`pending → published → sent | failed`, with `last_error`), so jobs that fail or are never published can be inspected and replayed from SQL.
+- **Worker safety:** durable queue, persistent messages, manual acks, `prefetch_count=1` and a reconnect loop with backoff. Poison messages are nacked without requeue, so one bad job can't block the queue.
 
-- **ACID Transactions:** Cart checkouts execute inside an atomic transaction block: cart verification -> stock locking -> stock deduction -> order insertion -> payment record -> cart purge -> commit/rollback.
+> Delivery itself is simulated (the worker logs the email); swapping in SMTP or SES only changes `process_message`.
 
-- **Concurrency Control:** Employs row-level locking via `SELECT ... FOR UPDATE` during checkouts to prevent race conditions and stock overselling.
+### 3. Business invariants live in the database
 
-- **Relational Constraints:** Enforces Primary Keys, Foreign Keys (`ON DELETE CASCADE` / `RESTRICT`), UNIQUE constraints on emails, and CHECK constraints on stock and prices.
+Rules that must hold no matter which code path writes the data are enforced by PostgreSQL:
 
-- **Triggers & Views:** Uses PL/pgSQL triggers to update modification timestamps automatically, and relational views (e.g., `v_top_selling_products`) for pre-aggregated analytics.
+| Mechanism | What it does |
+|---|---|
+| `CHECK` / `UNIQUE` / `FK` constraints | Non-negative stock and prices, unique emails, `ON DELETE CASCADE` / `RESTRICT` chosen per relationship |
+| `trg_after_order_item_insert` | Decrements inventory atomically with the order |
+| `trg_inventory_low_stock` | Notifies the seller when stock drops below their reorder threshold |
+| `trg_payment_*_completed` | Moves the order from `pending` to `confirmed` when its payment succeeds |
+| `trg_before_product_delete_audit` | Writes the deleted row to `sql_audit_log` as JSON |
+| `v_top_selling_products`, `v_monthly_sales`, `v_active_customers` | Pre-defined analytics used by the admin dashboard and the recommendations endpoint |
+| Composite indexes, e.g. `(status, created_at DESC)` | Match the actual query patterns for order listings and the email queue |
 
-- **RBAC Enforcement:** Maps users to system roles (`BUYER`, `SELLER`, `ADMIN`), enforced across API dependencies.
-
-### ER Diagram
+Schema changes go only through **Alembic migrations**. They run as a Kubernetes `Job` before the app rolls out, never on app startup in the cluster. The schema is normalized to 3NF and RBAC is modeled relationally (`users ↔ user_roles ↔ roles ↔ role_permissions ↔ permissions`).
 
 <p align="center">
-  <img src="./docs/images/er-diagram.png" width="100%" alt="ER Diagram"/>
+  <img src="./docs/images/er-diagram.png" width="100%" alt="ER diagram"/>
 </p>
 
+See [`docs/DATABASE.md`](docs/DATABASE.md) for the full schema, the normalization walkthrough and indexing notes.
 
-## Kubernetes & Infrastructure
+### 4. Polyglot persistence, for a reason
 
-- **Cluster Environment:** Configured for local Minikube execution across two isolated namespaces: `ecommerce` (Core Application) and `monitoring` (Observability).
+Product views and activity events are high-volume, schema-flexible and append-only. Writing them into PostgreSQL would bloat the transactional tables and compete for the same connections. They go to MongoDB, while anything that needs consistency stays relational.
 
-- **Services & Networking:** Internal communication occurs via ClusterIP Services. External access is unified under NGINX Ingress.
+### 5. Kubernetes manifests designed for zero-downtime operation
 
-- **Rolling Updates:** Deployments specify a `RollingUpdate` strategy (`maxSurge: 1`, `maxUnavailable: 0`) for continuous availability during image updates.
+| Concern | Implementation |
+|---|---|
+| **Zero-downtime rollouts** | `RollingUpdate` with `maxSurge: 1`, `maxUnavailable: 0` |
+| **Health semantics** | `startupProbe` (allows up to 150s for cold starts) → `readinessProbe` on `/ready` (gates traffic) → `livenessProbe` on `/health` (restarts hung pods) |
+| **Graceful shutdown** | `terminationGracePeriodSeconds: 30` so in-flight requests can finish |
+| **Autoscaling** | HPA scales from 2 to 5 replicas at 60% CPU; it scales up quickly (+100% per 60s) and down slowly (−50% per 60s with a 60s stabilization window) to avoid flapping |
+| **Resource governance** | Requests and limits on every backend pod (`100m to 500m` CPU, `256 to 512Mi` memory) so HPA percentages and scheduling are meaningful |
+| **Stateful services** | RabbitMQ as a `StatefulSet` with `volumeClaimTemplates`; PostgreSQL and MongoDB on `PersistentVolumeClaim`s |
+| **Config and secrets** | Non-sensitive config in `ConfigMap`s; credentials in `Secret`s created with `kubectl` and **kept out of git** (`secret.yaml` is gitignored) |
+| **Migrations and seeding** | One-off `Job`s (`backoffLimit: 3`) instead of init logic in the app container |
+| **Isolation** | Separate `ecommerce` and `monitoring` namespaces |
 
-- **HPA Configuration:**
+### 6. Immutable, traceable releases
 
-  - Target: Backend Deployment CPU utilization at 60%.
+The CD pipeline tags every image with the **commit SHA** (and also `latest`), pushes it to GHCR and deploys that exact tag. Any running container can be traced back to a commit, and rolling back means redeploying an earlier SHA instead of rebuilding.
 
-  - Range: Minimum 2 replicas, maximum 5 replicas.
-
-  - Scale-Up: 100% expansion per 60 seconds.
-
-  - Scale-Down: 50% reduction per 60 seconds with a 60-second stabilization window.
-
-## Infrastructure Diagram
-
-```
-─────────────────────────────────────────────────────────────────────────────────
-                                MINIKUBE CLUSTER
-─────────────────────────────────────────────────────────────────────────────────
-
- [ End Users ] ──► Ingress ──► Services ──► Deployments ──► Pods
-                                                                │
-                                    ┌───────────────────────────┼───────────────────────────┐
-                                    ▼                           ▼                           ▼
-                              PostgreSQL 15                 MongoDB 6                   RabbitMQ 3
-                           (ecommerce namespace)       (ecommerce namespace)       (ecommerce namespace)
-
- [ Metrics Server ] ──► [ Backend HPA ] ──► [ Backend Deployment ]
-
- [ Node Exporter ] ──► [ Prometheus ] ──► [ Grafana ]
- (monitoring namespace)  (monitoring namespace)  (monitoring namespace)
-
-```
-
-## Monitoring & Observability
-
-Observability is decoupled from autoscaling:
-
-- **Metrics Server:** Fetches temporary resource metrics (CPU/Memory) used exclusively by the HPA controller for scaling actions.
-
-- **Prometheus:** Scrapes and stores time-series metric data from cluster nodes and services.
-
-- **Grafana:** Connects to Prometheus to render visualization dashboards.
-
-- **Node Exporter:** Runs in the `monitoring` namespace to collect system-level hardware metrics.
-
-## Project Structure
-
-```
-ecommerce/
-├── .github/
-│   └── workflows/          # CI/CD pipeline definitions (ci.yml, cd.yml)
-├── backend/
-│   ├── alembic/            # Database schema migration scripts
-│   ├── app/                # FastAPI source code (api, models, routes, schemas)
-│   ├── scripts/            # Database seeding utilities
-│   ├── Dockerfile          # Backend container image specification
-│   └── requirements.txt    # Python dependencies
-├── frontend/
-│   ├── src/                # React source code
-│   ├── Dockerfile          # Frontend container image specification
-│   └── package.json        # Node.js dependencies
-├── k8s/                    # Kubernetes Declarative Manifests
-│   ├── namespace.yaml      # ecommerce namespace definition
-│   ├── configmap.yaml      # Non-sensitive configuration
-│   ├── secrets.yaml        # Base64 encoded secrets
-│   ├── *-deployment.yaml   # Workload manifests (postgres, mongo, rabbitmq, etc.)
-│   ├── ingress.yaml        # NGINX Ingress routing rules
-│   └── monitoring/         # Observability manifests (prometheus, grafana, etc.)
-├── docs/                   # Documentation resources & visual diagrams
-├── docker-compose.yml      # Multi-container orchestration specification
-└── README.md               # Main repository guide
-
-```
-
-## API Documentation
-
-FastAPI generates interactive documentation available when running the application:
-
-- **Swagger UI:** `/api/docs`
-
-- **ReDoc:** `/api/redoc`
-
-### Key Endpoints
-
-| **Group**    | **Method** | **Endpoint**           | **Description**            | **Authentication** |
-| ------------ | ---------- | ---------------------- | -------------------------- | ------------------ |
-| **Auth**     | `POST`     | `/api/auth/register`   | Register new user account  | None               |
-| **Auth**     | `POST`     | `/api/auth/login`      | Authenticate and issue JWT | None               |
-| **Products** | `GET`      | `/api/products`        | List and filter catalog    | None               |
-| **Products** | `POST`     | `/api/products`        | Create product listing     | Seller / Admin     |
-| **Cart**     | `GET`      | `/api/cart`            | Get shopping cart          | Buyer              |
-| **Cart**     | `POST`     | `/api/cart`            | Add product to cart        | Buyer              |
-| **Orders**   | `POST`     | `/api/orders/checkout` | Execute ACID cart checkout | Buyer              |
-| **Orders**   | `GET`      | `/api/orders`          | View user order history    | Buyer              |
-| **Reviews**  | `POST`     | `/api/reviews`         | Submit product review      | Buyer              |
-| **Wishlist** | `GET`      | `/api/wishlist`        | Get user wishlist          | Buyer              |
-| **Seller**   | `GET`      | `/api/seller/products` | View seller inventory      | Seller             |
-| **Admin**    | `GET`      | `/api/admin/users`     | List platform users        | Admin              |
-
-## Quick Start
-
-Run the complete multi-service application locally:
-
-1. Clone the repository.
-
-2. Run the multi-container stack using Docker Compose: `docker compose up --build`
-
-3. Access the Frontend at `http://localhost:3000`.
-
-4. Access the API Documentation at `http://localhost:8000/docs`.
-
-## Docker Compose Deployment
-
-Docker Compose served as the original deployment method for containerization and local development:
-
-- **Container Isolation:** Standardizes dependencies across environments.
-
-- **Service Networking:** Establishes automatic DNS resolution between container services.
-
-- **Local Iteration:** Facilitates rapid testing of multi-tier interactions prior to Kubernetes deployment.
-
-## Kubernetes Deployment Guide
-
-Deploy into Minikube using the declarative manifests in `k8s/`:
-
-1. Start Minikube with required addons: `ingress` and `metrics-server`.
-
-2. Point your terminal to Minikube's Docker daemon and build the application images.
-
-3. Apply the manifests in sequence: `namespace.yaml`, `configmap.yaml`, `secrets.yaml`, infrastructure deployments (`postgres`, `mongo`, `rabbitmq`), microservices (`backend`, `frontend`), and `ingress.yaml`.
-
-4. Verify resource creation using standard `kubectl get` commands (`pods`, `svc`, `ingress`, `hpa`).
-
-5. Map `marketgrid.local` to the Minikube IP address in your hosts file to access the system.
-
-## Monitoring Setup
-
-Deploy observability tools into the `monitoring` namespace:
-
-1. Apply manifests in `k8s/monitoring/` (`node-exporter.yaml`, `prometheus.yaml`, `grafana.yaml`).
-
-2. Verify running pods in the `monitoring` namespace.
-
-3. Access Grafana at `http://localhost:3001` or Prometheus at `http://localhost:9090` by forwarding service ports locally.
+---
 
 ## CI/CD
 
-Automated workflows are configured in `.github/workflows/`:
-
-- **`ci.yml`:** Executes Flake8 linting and Pytest unit tests on the backend, runs ESLint and production builds on the frontend, and verifies Docker image builds on every push.
-
-- **Deployment Execution:** Kubernetes cluster deployment is currently performed manually from the local development environment.
-
-## Deployment Evolution
-
-```
-Phase 1: Application & DBMS Design
-E-Commerce Monolith + PostgreSQL + MongoDB + RabbitMQ
-  │
-  ▼
-Phase 2: Docker Compose
-Containerized Multi-Service Deployment
-  │
-  ▼
-Phase 3: Kubernetes Orchestration
-Minikube Cluster (Pods, Deployments, Services, ConfigMaps, Secrets)
-  │
-  ▼
-Phase 4: Networking & Dynamic Scaling
-NGINX Ingress Controller + Rolling Updates + Metrics Server + HPA
-  │
-  ▼
-Phase 5: Cluster Observability
-Prometheus + Grafana + Node Exporter
-  │
-  ▼
-Next: Planned Improvements
-Background Worker Service + Helm Charts + AWS EKS Migration
-
+```mermaid
+flowchart LR
+    P[push / PR] --> CI
+    subgraph CI [ci.yml]
+      F[Frontend: npm ci + build]
+      B[Backend: install + compileall]
+      F & B --> D[Validate both compose files<br/>Build both images with Buildx]
+    end
+    M[push to main] --> CD
+    subgraph CD [cd.yml]
+      BP[Build + push to GHCR<br/>tag = commit SHA] --> DEP[SCP compose to GCP VM<br/>SSH: pull + up -d + prune]
+    end
 ```
 
-## Future Improvements
+- **CI** runs on every push and pull request. It builds the frontend, byte-compiles the backend, validates the dev and prod Compose files and builds both Docker images.
+- **CD** runs on `main`. It pushes SHA-tagged images to GHCR, copies the production Compose file to the VM over SCP and runs `docker compose pull && up -d` over SSH. The deploy fails fast if `.env.prod` is missing on the host.
+- The step-by-step VM setup is in [`docs/GCP_VM_DEPLOY.md`](docs/GCP_VM_DEPLOY.md).
 
-The following improvements are planned for future releases:
+---
 
-- Complete asynchronous Worker Service for RabbitMQ event processing.
+## Observability
 
-- Convert raw Kubernetes manifests into a modular Helm chart.
+- **Host metrics:** node_exporter → Prometheus (5s scrape interval) → Grafana, with Prometheus provisioned as a Grafana datasource (`prometheus.yml`, `grafana.yml`).
+- **Autoscaling metrics:** in the cluster, the Kubernetes **Metrics Server** feeds the HPA. Short-lived scaling signals are kept separate from long-term Prometheus storage.
+- **Application logs:** structured activity documents in MongoDB, and email-job state with error messages in PostgreSQL.
 
-- AWS EKS deployment with managed RDS PostgreSQL and DocumentDB.
+---
 
-- Implement k6 load testing scripts to evaluate HPA scaling dynamics under heavy traffic.
+## Quick start
 
-- Add PostgreSQL Exporter and RabbitMQ Exporter to Prometheus.
+### Prerequisites
 
-- Introduce Kubernetes `NetworkPolicies` for fine-grained pod communication security.
+Docker with the Compose plugin. Minikube and kubectl are needed only for the Kubernetes path.
 
-- **Metrics Separation:** The Kubernetes Metrics Server serves short-term resource metrics for HPA, whereas Prometheus collects long-term metrics for historical observability.
+### Run with Docker Compose
+
+```bash
+git clone https://github.com/Anantha-Shayan/ecommerce.git
+cd ecommerce
+```
+
+Create a `.env` file in the repo root:
+
+```env
+POSTGRES_USER=marketgrid
+POSTGRES_PASSWORD=change-me
+POSTGRES_DB=ecommerce
+DATABASE_URL=postgresql+psycopg2://marketgrid:change-me@postgres:5432/ecommerce
+RABBITMQ_USER=marketgrid
+RABBITMQ_PASSWORD=change-me
+RABBITMQ_URL=amqp://marketgrid:change-me@rabbitmq:5672/%2F
+JWT_SECRET=replace-with-a-long-random-string
+GRAFANA_ADMIN_USER=admin
+GRAFANA_ADMIN_PASSWORD=change-me
+```
+
+```bash
+docker compose up --build
+```
+
+On startup the backend runs `alembic upgrade head`, seeds demo data and then starts Uvicorn.
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| API docs (Swagger UI) | http://localhost:8001/docs |
+| RabbitMQ management | http://localhost:15672 |
+| Prometheus | http://localhost:9090 |
+| Grafana | http://localhost:3000 |
+
+To load-test with a large catalog:
+
+```bash
+docker compose exec backend python scripts/bulk_seed.py   # inserts 200,000 products with inventory
+```
+
+---
+
+## Deploying to Kubernetes (Minikube)
+
+```bash
+# 1. Cluster and add-ons
+minikube start
+minikube addons enable ingress
+minikube addons enable metrics-server
+
+# 2. Build images inside Minikube's Docker daemon
+eval $(minikube docker-env)
+docker build -t ecommerce-backend:latest ./backend
+docker build -t ecommerce-frontend:latest --build-arg VITE_API_URL=/api ./frontend
+
+# 3. Namespaces
+kubectl apply -f k8s/namespace/
+
+# 4. Secrets (never committed)
+kubectl -n ecommerce create secret generic postgres-secret \
+  --from-literal=POSTGRES_USER=marketgrid --from-literal=POSTGRES_PASSWORD=<pw> --from-literal=POSTGRES_DB=ecommerce
+kubectl -n ecommerce create secret generic mongo-secret \
+  --from-literal=MONGODB_USER=marketgrid --from-literal=MONGODB_PASS=<pw>
+kubectl -n ecommerce create secret generic backend-secret \
+  --from-literal=DATABASE_URL=postgresql+psycopg2://marketgrid:<pw>@postgres-service:5432/ecommerce \
+  --from-literal=MONGO_URI=mongodb://marketgrid:<pw>@mongo-service:27017 \
+  --from-literal=RABBITMQ_USER=marketgrid --from-literal=RABBITMQ_PASSWORD=<pw> \
+  --from-literal=RABBITMQ_URL=amqp://marketgrid:<pw>@rabbitmq:5672/%2F \
+  --from-literal=JWT_SECRET=<long-random-string>
+
+# 5. Stateful services, then migrate and seed, then the app
+kubectl apply -f k8s/postgres/ -f k8s/mongo/ -f k8s/rabbitmq/
+kubectl apply -f k8s/backend/configmap.yaml
+kubectl apply -f k8s/backend/migration-job.yaml && kubectl -n ecommerce wait --for=condition=complete job/backend-migration
+kubectl apply -f k8s/backend/seed-job.yaml
+kubectl apply -f k8s/backend/ -f k8s/frontend/ -f k8s/ingress/
+
+# 6. Verify
+kubectl -n ecommerce get pods,svc,ingress,hpa
+echo "$(minikube ip) ecommerce.local" | sudo tee -a /etc/hosts
+```
+
+Open **http://ecommerce.local**. To watch autoscaling, generate load against `/api/products/` and run `kubectl -n ecommerce get hpa -w`.
+
+> Service hostnames in the secrets must match the `Service` names in `k8s/*/service.yaml`.
+
+---
+
+## API
+
+Interactive docs are available at `/docs` (Swagger UI) and `/redoc`. Some representative endpoints:
+
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/auth/register`, `/api/auth/login` | Public | Create an account / get a JWT |
+| `GET` | `/api/products/` | Public | Catalog listing with filters |
+| `POST` | `/api/cart/` | Buyer | Add an item to the cart |
+| `POST` | `/api/orders/checkout` | Buyer | **Transactional checkout** (supports coupons and `simulate_failure`) |
+| `POST` | `/api/orders/{id}/simulate-payment` | Buyer | Confirm a payment → order confirmation and email job via triggers |
+| `POST` | `/api/products/seller` | Seller | List a product (enters the moderation queue) |
+| `GET` | `/api/seller/analytics/sales` | Seller | Sales analytics for the seller's products |
+| `PATCH` | `/api/admin/products/{id}/moderation` | Admin | Approve or reject a product |
+| `GET` | `/api/admin/analytics/monthly` | Admin | Monthly revenue from `v_monthly_sales` |
+| `GET` | `/api/admin/audit/sql` | Admin | Audit trail written by triggers |
+| `GET` | `/health`, `/ready` | Infra | Liveness and readiness probes |
+
+---
+
+## Project structure
+
+```text
+ecommerce/
+├── .github/workflows/      # ci.yml (build + validate), cd.yml (GHCR + GCP VM deploy)
+├── backend/
+│   ├── alembic/versions/   # schema, triggers, views and the email outbox migration
+│   ├── app/
+│   │   ├── api/            # auth and RBAC dependencies
+│   │   ├── routes/         # 13 routers (auth, products, orders, admin, seller, ...)
+│   │   ├── services/       # checkout transaction, email publisher, Mongo logging
+│   │   ├── workers/        # RabbitMQ email consumer
+│   │   ├── models/         # SQLAlchemy ORM (21 tables)
+│   │   └── schemas/        # Pydantic DTOs
+│   └── scripts/            # seed.py, bulk_seed.py (200k rows)
+├── frontend/               # React 18 + Vite + Tailwind, served by NGINX (multi-stage build)
+├── k8s/
+│   ├── namespace/          # ecommerce, monitoring
+│   ├── backend/            # Deployment, Service, HPA, ConfigMap, migration and seed Jobs
+│   ├── frontend/  ingress/
+│   ├── postgres/  mongo/   # Deployments + PVCs + Services
+│   ├── rabbitmq/           # StatefulSet + Service
+│   └── monitoring/         # Prometheus (in progress)
+├── deploy/                 # production compose + env template for the GCP VM
+├── docs/                   # DATABASE.md, GCP_VM_DEPLOY.md, DEMO_REPORT.md, diagrams
+├── docker-compose.yml      # full local stack, including the worker and monitoring
+├── prometheus.yml  grafana.yml
+```
+
+---
+
+## Roadmap
+
+| Status | Item |
+|---|---|
+| ✅ | ACID checkout, triggers, views, audit log, RBAC |
+| ✅ | Outbox-style email pipeline over RabbitMQ with a dedicated worker |
+| ✅ | Docker Compose with CI/CD to a GCP VM through GHCR |
+| ✅ | Kubernetes: Ingress, rolling updates, probes, HPA, StatefulSet, migration Jobs |
+| 🚧 | Prometheus and Grafana inside the cluster (`monitoring` namespace) |
+| 🚧 | Email worker as a Kubernetes Deployment (runs in Compose today) |
+| 🔜 | A relay that republishes `pending` email jobs if the in-request publish fails |
+| 🔜 | k6 load tests to characterize HPA behavior; pytest suite in CI |
+| 🔜 | Helm chart, NetworkPolicies, postgres_exporter and rabbitmq_exporter |
+| 🔜 | Managed cloud deployment (EKS or GKE with managed PostgreSQL) |
+
+---
+
+<div align="center">
+
+Built by **[Anantha Shayan](https://github.com/Anantha-Shayan)** · [Portfolio](https://ananthadev.online) · [LinkedIn](https://www.linkedin.com/in/anantha-shayan28022006/)
+
+</div>
